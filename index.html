@@ -625,100 +625,61 @@
   return new Date(year, month - 1, day, hours, minutes, 0);
 }
 
-function updateNextShow() {
-  if (!shows || shows.length === 0) {
-    document.getElementById('nextShowDisplay').innerHTML = '<p>No shows scheduled</p>';
-    return;
-  }
-
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  const futureShows = shows
-    .map(show => ({
-      ...show,
-      dateTime: parseShowDateTime(show.date, show.time)
-    }))
-    .filter(show => show.dateTime >= today)
-    .sort((a, b) => a.dateTime - b.dateTime);
-
-  if (futureShows.length === 0) {
-    document.getElementById('nextShowDisplay').innerHTML = '<p>No upcoming shows</p>';
-    return;
-  }
-
-  const nextShow = futureShows[0];
-  const dateObj = nextShow.dateTime;
-  const dateStr = dateObj.toLocaleDateString('en-US', { 
-    weekday: 'long', 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric' 
-  });
-
-  document.getElementById('nextShowDisplay').innerHTML = `
-    <h2>${nextShow.title}</h2>
-    <p><strong>${dateStr}</strong> at <strong>${nextShow.time}</strong></p>
-    <p>${nextShow.location}</p>
-    ${nextShow.description ? `<p>${nextShow.description}</p>` : ''}
-  `;
-}
-
-            // Filter shows that are in the future
-            const futureShows = shows.filter(show => {
-                const showDateTime = new Date(`${show.date}T${show.time}`);
-                return showDateTime > now;
-            });
-
-            // Sort by date and time
-            futureShows.sort((a, b) => {
-                const dateA = new Date(`${a.date}T${a.time}`);
-                const dateB = new Date(`${b.date}T${b.time}`);
-                return dateA - dateB;
-            });
-
+        function updateNextShow() {
+            const shows = getShows();
             const display = document.getElementById('next-show-display');
+
+            if (!shows || shows.length === 0) {
+                display.classList.add('empty');
+                display.innerHTML = 'No shows scheduled yet. Manage shows to add upcoming productions.';
+                return;
+            }
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            const futureShows = shows
+                .map(show => ({
+                    ...show,
+                    dateTime: parseShowDateTime(show.date, show.time)
+                }))
+                .filter(show => show.dateTime >= today)
+                .sort((a, b) => a.dateTime - b.dateTime);
 
             if (futureShows.length === 0) {
                 display.classList.add('empty');
-                display.innerHTML = 'No shows scheduled yet. Manage shows to add upcoming productions.';
-            } else {
-                const nextShow = futureShows[0];
-                display.classList.remove('empty');
-
-                const showDate = new Date(`${nextShow.date}T${nextShow.time}`);
-                const dateOptions = {
-                    weekday: 'long',
-                    month: 'short',
-                    day: 'numeric'
-                };
-                const formattedDate = showDate.toLocaleDateString('en-US', dateOptions);
-                const formattedTime = showDate.toLocaleTimeString('en-US', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: true
-                });
-
-                let html = `
-                    <div class="show-title">${escapeHtml(nextShow.title)}</div>
-                    <div class="show-info">
-                        <strong>Date:</strong> ${formattedDate}
-                    </div>
-                    <div class="show-info">
-                        <strong>Time:</strong> ${formattedTime}
-                    </div>
-                `;
-
-                if (nextShow.location) {
-                    html += `<div class="show-info"><strong>Location:</strong> ${escapeHtml(nextShow.location)}</div>`;
-                }
-
-                if (nextShow.description) {
-                    html += `<div class="show-info"><strong>Details:</strong> ${escapeHtml(nextShow.description)}</div>`;
-                }
-
-                display.innerHTML = html;
+                display.innerHTML = 'No upcoming shows scheduled.';
+                return;
             }
+
+            const nextShow = futureShows[0];
+            display.classList.remove('empty');
+
+            const formattedDate = nextShow.dateTime.toLocaleDateString('en-US', {
+                weekday: 'long',
+                month: 'short',
+                day: 'numeric'
+            });
+            const formattedTime = nextShow.dateTime.toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            });
+
+            let html = `
+                <div class="show-title">${escapeHtml(nextShow.title)}</div>
+                <div class="show-info"><strong>Date:</strong> ${formattedDate}</div>
+                <div class="show-info"><strong>Time:</strong> ${formattedTime}</div>
+            `;
+
+            if (nextShow.location) {
+                html += `<div class="show-info"><strong>Location:</strong> ${escapeHtml(nextShow.location)}</div>`;
+            }
+            if (nextShow.description) {
+                html += `<div class="show-info"><strong>Details:</strong> ${escapeHtml(nextShow.description)}</div>`;
+            }
+
+            display.innerHTML = html;
         }
 
         // Render list of all shows in modal
@@ -732,15 +693,11 @@ function updateNextShow() {
             }
 
             // Sort by date
-            shows.sort((a, b) => {
-                const dateA = new Date(`${a.date}T${a.time}`);
-                const dateB = new Date(`${b.date}T${b.time}`);
-                return dateA - dateB;
-            });
+            shows.sort((a, b) => parseShowDateTime(a.date, a.time) - parseShowDateTime(b.date, b.time));
 
             let html = '';
             shows.forEach((show, index) => {
-                const showDate = new Date(`${show.date}T${show.time}`);
+                const showDate = parseShowDateTime(show.date, show.time);
                 const dateStr = showDate.toLocaleDateString('en-US', {
                     month: 'short',
                     day: 'numeric',
