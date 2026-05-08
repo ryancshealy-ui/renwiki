@@ -439,6 +439,121 @@
         footer a:hover {
             text-decoration: underline;
         }
+        /* ── Access Gate ── */
+        .gate-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(20, 25, 40, 0.75);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 9000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .gate-overlay.hidden { display: none; }
+
+        .gate-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 48px 40px 40px;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.35);
+            text-align: center;
+        }
+        .gate-logo {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--color-secondary);
+            margin-bottom: 6px;
+        }
+        .gate-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: 6px;
+        }
+        .gate-subtitle {
+            font-size: 13px;
+            color: var(--color-text-light);
+            margin-bottom: 32px;
+        }
+        .gate-input {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 16px;
+            letter-spacing: 2px;
+            text-align: center;
+            border: 2px solid var(--color-border);
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.2s;
+            margin-bottom: 12px;
+        }
+        .gate-input:focus { border-color: var(--color-secondary); }
+        .gate-input.error { border-color: var(--color-error); animation: gate-shake 0.3s ease; }
+        @keyframes gate-shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+        .gate-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--color-primary);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .gate-btn:hover { background: var(--color-primary-dark); }
+        .gate-error-msg {
+            font-size: 13px;
+            color: var(--color-error);
+            margin-top: 10px;
+            min-height: 18px;
+        }
+
+        /* ── Access Codes Admin Modal ── */
+        #accessCodesModal .modal-content { max-width: 480px; }
+        .code-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: var(--color-bg-light);
+            border-radius: 6px;
+            margin-bottom: 8px;
+            font-family: monospace;
+            font-size: 15px;
+            letter-spacing: 1px;
+        }
+        .code-item-actions button {
+            background: none;
+            border: 1px solid var(--color-error);
+            color: var(--color-error);
+            border-radius: 4px;
+            padding: 3px 10px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .code-item-actions button:hover { background: var(--color-error); color: #fff; }
+        .admin-link {
+            display: inline-block;
+            margin-top: 8px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+            cursor: pointer;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .admin-link:hover { color: rgba(255,255,255,0.8); }
     </style>
 </head>
 <body>
@@ -523,16 +638,151 @@
         </div>
     </div>
 
+    <!-- Access Gate Overlay -->
+    <div id="gateOverlay" class="gate-overlay">
+        <div class="gate-card">
+            <div class="gate-logo">Renaissance Theatre</div>
+            <div class="gate-title">RenWiki</div>
+            <div class="gate-subtitle">Enter your access code to continue</div>
+            <input type="password" id="gateInput" class="gate-input" placeholder="••••••••"
+                   onkeydown="if(event.key==='Enter') checkCode()">
+            <button class="gate-btn" onclick="checkCode()">Continue</button>
+            <div class="gate-error-msg" id="gateError"></div>
+        </div>
+    </div>
+
+    <!-- Access Codes Admin Modal -->
+    <div id="accessCodesModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Manage Access Codes</h2>
+                <button class="close-btn" onclick="closeAccessCodesModal()">&times;</button>
+            </div>
+            <div id="codes-list" style="margin-bottom: 24px;"></div>
+            <h3 style="color: var(--color-primary); margin-bottom: 12px;">Add New Code</h3>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="new-code-input" class="gate-input"
+                       style="margin-bottom:0; letter-spacing:2px; text-transform:uppercase;"
+                       placeholder="e.g. STAFF2026"
+                       onkeydown="if(event.key==='Enter') addCode()">
+                <button class="btn btn-primary" onclick="addCode()" style="white-space:nowrap;">Add Code</button>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <p>&copy; 2026 Renaissance Theatre. RenWiki Dashboard v1.0</p>
+        <a class="admin-link" onclick="openAccessCodesModal()">⚙ Access Codes</a>
     </footer>
 
     <script>
         // Constants
         const STORAGE_KEY = 'renShowsData';
+        const ACCESS_CODES_KEY = 'renAccessCodes';
+        const AUTH_SESSION_KEY = 'renAuthenticated';
+
+        // ── Access Gate ──────────────────────────────────────────
+
+        function initAccessGate() {
+            // Seed default code on first ever load
+            if (localStorage.getItem(ACCESS_CODES_KEY) === null) {
+                localStorage.setItem(ACCESS_CODES_KEY, JSON.stringify(['REN2026']));
+            }
+            // If already authenticated this session, skip gate
+            if (sessionStorage.getItem(AUTH_SESSION_KEY) === 'true') {
+                document.getElementById('gateOverlay').classList.add('hidden');
+            }
+            // Otherwise gate stays visible (default in HTML)
+        }
+
+        function checkCode() {
+            const input = document.getElementById('gateInput');
+            const errorEl = document.getElementById('gateError');
+            const entered = input.value.trim().toUpperCase();
+            const codes = JSON.parse(localStorage.getItem(ACCESS_CODES_KEY) || '[]')
+                            .map(c => c.toUpperCase());
+
+            if (codes.includes(entered)) {
+                sessionStorage.setItem(AUTH_SESSION_KEY, 'true');
+                document.getElementById('gateOverlay').classList.add('hidden');
+                errorEl.textContent = '';
+                input.value = '';
+            } else {
+                errorEl.textContent = 'Access denied — try again.';
+                input.classList.add('error');
+                input.value = '';
+                setTimeout(() => input.classList.remove('error'), 400);
+                input.focus();
+            }
+        }
+
+        // ── Access Codes Admin ────────────────────────────────────
+
+        function getCodes() {
+            return JSON.parse(localStorage.getItem(ACCESS_CODES_KEY) || '[]');
+        }
+
+        function saveCodes(codes) {
+            localStorage.setItem(ACCESS_CODES_KEY, JSON.stringify(codes));
+        }
+
+        function openAccessCodesModal() {
+            renderCodesList();
+            document.getElementById('accessCodesModal').style.display = 'flex';
+        }
+
+        function closeAccessCodesModal() {
+            document.getElementById('accessCodesModal').style.display = 'none';
+            document.getElementById('new-code-input').value = '';
+        }
+
+        function renderCodesList() {
+            const codes = getCodes();
+            const listEl = document.getElementById('codes-list');
+            if (codes.length === 0) {
+                listEl.innerHTML = '<p style="color:var(--color-text-light);font-size:14px;">No access codes set. Add one below.</p>';
+                return;
+            }
+            listEl.innerHTML = codes.map((code, i) => `
+                <div class="code-item">
+                    <span>${escapeHtml(code)}</span>
+                    <div class="code-item-actions">
+                        <button onclick="removeCode(${i})">Remove</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addCode() {
+            const input = document.getElementById('new-code-input');
+            const newCode = input.value.trim().toUpperCase();
+            if (!newCode) return;
+            const codes = getCodes();
+            if (codes.map(c => c.toUpperCase()).includes(newCode)) {
+                alert('That code already exists.');
+                return;
+            }
+            codes.push(newCode);
+            saveCodes(codes);
+            input.value = '';
+            renderCodesList();
+        }
+
+        function removeCode(index) {
+            const codes = getCodes();
+            if (codes.length === 1) {
+                if (!confirm('This is the last access code. Removing it will lock everyone out. Continue?')) return;
+            }
+            codes.splice(index, 1);
+            saveCodes(codes);
+            renderCodesList();
+        }
+
+        // ── Initialize ────────────────────────────────────────────
 
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
+            initAccessGate();
             loadShowsFromJSON();
             updateDateTime();
             updateNextShow();
@@ -827,11 +1077,12 @@
             document.querySelector('button[type="submit"]').textContent = 'Add Show';
         }
 
-        // Close modal when clicking outside
+        // Close modals when clicking outside
         document.getElementById('manageShowsModal').addEventListener('click', function(event) {
-            if (event.target === this) {
-                closeManageShowsModal();
-            }
+            if (event.target === this) closeManageShowsModal();
+        });
+        document.getElementById('accessCodesModal').addEventListener('click', function(event) {
+            if (event.target === this) closeAccessCodesModal();
         });
 
         // Utility function to escape HTML
