@@ -606,9 +606,63 @@
         }
 
         // Find and display the next upcoming show
-        function updateNextShow() {
-            const shows = getShows();
-            const now = new Date();
+       function parseShowDateTime(dateStr, timeStr) {
+  const [year, month, day] = dateStr.split('-').map(Number);
+  
+  let hours = 0, minutes = 0;
+  if (timeStr) {
+    const timeMatch = timeStr.match(/(\d{1,2}):(\d{2})\s*(am|pm)?/i);
+    if (timeMatch) {
+      hours = parseInt(timeMatch[1], 10);
+      minutes = parseInt(timeMatch[2], 10);
+      const ampm = timeMatch[3]?.toLowerCase();
+      
+      if (ampm === 'pm' && hours !== 12) hours += 12;
+      if (ampm === 'am' && hours === 12) hours = 0;
+    }
+  }
+  
+  return new Date(year, month - 1, day, hours, minutes, 0);
+}
+
+function updateNextShow() {
+  if (!shows || shows.length === 0) {
+    document.getElementById('nextShowDisplay').innerHTML = '<p>No shows scheduled</p>';
+    return;
+  }
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const futureShows = shows
+    .map(show => ({
+      ...show,
+      dateTime: parseShowDateTime(show.date, show.time)
+    }))
+    .filter(show => show.dateTime >= today)
+    .sort((a, b) => a.dateTime - b.dateTime);
+
+  if (futureShows.length === 0) {
+    document.getElementById('nextShowDisplay').innerHTML = '<p>No upcoming shows</p>';
+    return;
+  }
+
+  const nextShow = futureShows[0];
+  const dateObj = nextShow.dateTime;
+  const dateStr = dateObj.toLocaleDateString('en-US', { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+  });
+
+  document.getElementById('nextShowDisplay').innerHTML = `
+    <h2>${nextShow.title}</h2>
+    <p><strong>${dateStr}</strong> at <strong>${nextShow.time}</strong></p>
+    <p>${nextShow.location}</p>
+    ${nextShow.description ? `<p>${nextShow.description}</p>` : ''}
+  `;
+}
 
             // Filter shows that are in the future
             const futureShows = shows.filter(show => {
