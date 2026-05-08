@@ -59,13 +59,24 @@
             opacity: 0.95;
         }
 
+        /* Top Row: DateTime + Next Show side by side */
+        .top-row {
+            display: grid;
+            grid-template-columns: minmax(200px, 1fr) 2fr;
+            gap: 30px;
+            margin-bottom: 30px;
+            align-items: start;
+        }
+        @media (max-width: 768px) {
+            .top-row { grid-template-columns: 1fr; }
+        }
+
         /* DateTime Display */
         .datetime-section {
             background: var(--color-accent);
             border: 2px solid var(--color-secondary);
             border-radius: 8px;
             padding: 25px;
-            margin-bottom: 30px;
             text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
@@ -93,18 +104,23 @@
             font-family: 'Monaco', 'Courier New', monospace;
         }
 
-        /* Main Content Grid */
-        .main-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
+        /* Resources Section */
+        .resources {
+            background: var(--color-accent);
+            border: 2px solid var(--color-secondary);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             margin-bottom: 30px;
         }
 
-        @media (max-width: 768px) {
-            .main-grid {
-                grid-template-columns: 1fr;
-            }
+        .resources h2 {
+            color: var(--color-primary);
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            opacity: 0.8;
         }
 
         /* Next Show Card */
@@ -157,73 +173,41 @@
             color: var(--color-primary);
         }
 
-        .manage-shows-btn {
-            background: var(--color-secondary);
-            color: var(--color-primary);
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.9em;
-            transition: all 0.3s ease;
-        }
-
-        .manage-shows-btn:hover {
-            background: var(--color-primary);
-            color: var(--color-secondary);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(137, 198, 232, 0.3);
-        }
-
-        /* Quick Links Section */
-        .quick-links {
-            background: var(--color-accent);
-            border: 2px solid var(--color-secondary);
-            border-radius: 8px;
-            padding: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .quick-links h2 {
-            color: var(--color-primary);
-            font-size: 0.9em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 20px;
-            opacity: 0.8;
-        }
-
         .links-grid {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
             gap: 12px;
         }
 
         .module-link {
-            display: block;
-            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 12px;
             background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
             color: var(--color-accent);
             text-decoration: none;
-            border-radius: 4px;
-            border-left: 4px solid var(--color-secondary);
-            transition: all 0.3s ease;
+            border-radius: 6px;
+            border-bottom: 3px solid var(--color-secondary);
+            transition: all 0.2s ease;
             font-weight: 600;
+            font-size: 0.9em;
             text-align: center;
+            min-height: 80px;
         }
 
         .module-link:hover {
             background: linear-gradient(135deg, var(--color-secondary) 0%, #6fa8d1 100%);
             color: var(--color-primary);
-            transform: translateX(5px);
-            box-shadow: 0 4px 12px rgba(137, 198, 232, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(137, 198, 232, 0.35);
         }
 
         .module-link .icon {
             display: block;
             font-size: 1.5em;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
         }
 
         /* Modal Styles */
@@ -563,37 +547,36 @@
             <p>Renaissance Theatre Staff Portal</p>
         </header>
 
-        <div class="datetime-section">
-            <h2>Current Date & Time</h2>
-            <div id="current-date">—</div>
-            <div id="current-time">—</div>
-        </div>
+        <div class="top-row">
+            <div class="datetime-section">
+                <h2>Current Date & Time</h2>
+                <div id="current-date">—</div>
+                <div id="current-time">—</div>
+            </div>
 
-        <div class="main-grid">
             <div class="next-show-card">
                 <h2>Next Upcoming Show</h2>
                 <div id="next-show-display" class="show-details empty">
-                    No shows scheduled yet. Manage shows to add upcoming productions.
+                    No shows scheduled yet.
                 </div>
-                <button class="manage-shows-btn" onclick="openManageShowsModal()">Manage Shows</button>
             </div>
+        </div>
 
-            <div class="quick-links">
-                <h2>Quick Links</h2>
-                <div class="links-grid">
-                    <a href="ren-staff-directory.html" class="module-link">
-                        <span class="icon">👥</span>
-                        Staff Directory
-                    </a>
-                    <a href="ren-vendors-directory.html" class="module-link">
-                        <span class="icon">🏢</span>
-                        Vendors Directory
-                    </a>
-                    <a href="ren-hr-handbook.html" class="module-link">
-                        <span class="icon">📖</span>
-                        HR Handbook
-                    </a>
-                </div>
+        <div class="resources">
+            <h2>Resources</h2>
+            <div class="links-grid">
+                <a href="ren-staff-directory.html" class="module-link">
+                    <span class="icon">👥</span>
+                    Staff Directory
+                </a>
+                <a href="ren-vendors-directory.html" class="module-link">
+                    <span class="icon">🏢</span>
+                    Vendors Directory
+                </a>
+                <a href="ren-hr-handbook.html" class="module-link">
+                    <span class="icon">📖</span>
+                    HR Handbook
+                </a>
             </div>
         </div>
 
