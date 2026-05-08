@@ -235,10 +235,11 @@
         .category-header .toggle-icon {
             font-size: 16px;
             transition: transform 0.3s;
+            transform: rotate(90deg);
         }
 
         .category-header .toggle-icon.collapsed {
-            transform: rotate(-90deg);
+            transform: rotate(0deg);
         }
 
         .category-content {
@@ -756,11 +757,11 @@
                 header.innerHTML = `
                     <span>${cat}</span>
                     <span class="vendor-count">${filtered.length}</span>
-                    <span class="toggle-icon">▶</span>
+                    <span class="toggle-icon collapsed">▶</span>
                 `;
 
                 const content = document.createElement('div');
-                content.className = 'category-content';
+                content.className = 'category-content collapsed';
 
                 filtered.forEach(vendor => {
                     const row = document.createElement('div');
