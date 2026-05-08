@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renaissance General Knowledge Base</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #252d44;
+            --accent: #89c6e8;
+            --dark-bg: #1a1f2e;
+            --light-bg: #f8f9fa;
+            --border: #e0e4e8;
+            --text: #333;
+            --text-light: #666;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --error: #f44336;
+            --shadow: 0 2px 8px rgba(37, 45, 68, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1f2636 100%);
+            color: white;
+            padding: 40px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(137, 198, 232, 0.1);
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1a1f2e;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-small {
+            padding: 8px 12px;
+            font-size: 0.9em;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #45a049;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #e68900;
+        }
+
+        .btn-danger {
+            background: var(--error);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #da190b;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 3px solid var(--border);
+            padding-bottom: 0;
+        }
+
+        .tab-btn {
+            padding: 15px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            color: var(--text-light);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            margin-bottom: -3px;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--accent);
+        }
+
+        .tab-btn:hover {
+            color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 30px;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .category-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            border-left: 5px solid var(--accent);
+        }
+
+        .category-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(37, 45, 68, 0.15);
+        }
+
+        .category-card h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .category-card .count {
+            color: var(--text-light);
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+
+        .category-card .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .entries-list {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .entry-item {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s;
+        }
+
+        .entry-item:last-child {
+            border-bottom: none;
+        }
+
+        .entry-item:hover {
+            background: var(--light-bg);
+        }
+
+        .entry-item h4 {
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .entry-item .category-label {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-bottom: 10px;
+        }
+
+        .entry-item .content {
+            color: var(--text);
+            margin-bottom: 12px;
+            line-height: 1.7;
+            white-space: pre-wrap;
+        }
+
+        .entry-item .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light);
+        }
+
+        .empty-state h3 {
+            color: var(--text);
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+
+        .empty-state p {
+            margin-bottom: 20px;
+        }
+
+        .message {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            animation: slideDown 0.3s;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid var(--success);
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid var(--error);
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .file-input-wrapper input[type="file"] {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .search-box {
+                min-width: auto;
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                width: 95%;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+                <h1>Renaissance General Knowledge Base</h1>
+                <p>Shared resources, procedures, and organizational information</p>
+            </div>
+            <a href="index.html" class="btn" style="background: white; color: var(--primary); margin-top: 10px; text-decoration: none;">
+                ← Back to Dashboard
+            </a>
+        </header>
+
+        <div id="messages"></div>
+
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search knowledge base...">
+            </div>
+            <button class="btn btn-primary" onclick="openCategoryModal()">+ New Category</button>
+            <button class="btn btn-primary" onclick="openEntryModal()">+ New Entry</button>
+            <button class="btn btn-secondary" onclick="exportData()">Export</button>
+            <button class="btn btn-secondary" onclick="document.getElementById('importFile').click()">Import</button>
+            <input type="file" id="importFile" accept=".json" style="display:none">
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('browse')">Browse</button>
+            <button class="tab-btn" onclick="switchTab('search')">Search Results</button>
+        </div>
+
+        <!-- Browse Tab -->
+        <div id="browse" class="tab-content active">
+            <div id="categoriesContainer" class="categories-grid"></div>
+        </div>
+
+        <!-- Search Tab -->
+        <div id="search" class="tab-content">
+            <div id="searchResults"></div>
+        </div>
+    </div>
+
+    <!-- Category Modal -->
+    <div id="categoryModal" class="modal">
+        <div class="modal-content">
+            <h2 id="categoryModalTitle">New Category</h2>
+            <form onsubmit="saveCategoryModal(event)">
+                <div class="form-group">
+                    <label for="categoryName">Category Name</label>
+                    <input type="text" id="categoryName" required>
+                </div>
+                <div class="form-group">
+                    <label for="categoryDesc">Description (optional)</label>
+                    <textarea id="categoryDesc"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeCategoryModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Entry Modal -->
+    <div id="entryModal" class="modal">
+        <div class="modal-content">
+            <h2 id="entryModalTitle">New Knowledge Entry</h2>
+            <form onsubmit="saveEntryModal(event)">
+                <div class="form-group">
+                    <label for="entryCategory">Category</label>
+                    <select id="entryCategory" required></select>
+                </div>
+                <div class="form-group">
+                    <label for="entryTitle">Title</label>
+                    <input type="text" id="entryTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="entryContent">Content</label>
+                    <textarea id="entryContent" required></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeEntryModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Entry</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let knowledge = {
+            categories: [],
+            entries: []
+        };
+
+        let currentEditingCategory = null;
+        let currentEditingEntry = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFromStorage();
+            renderCategories();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            document.getElementById('searchInput').addEventListener('input', performSearch);
+            document.getElementById('importFile').addEventListener('change', importData);
+        }
+
+        function openCategoryModal() {
+            currentEditingCategory = null;
+            document.getElementById('categoryModalTitle').textContent = 'New Category';
+            document.getElementById('categoryName').value = '';
+            document.getElementById('categoryDesc').value = '';
+            document.getElementById('categoryModal').classList.add('active');
+        }
+
+        function editCategory(id) {
+            currentEditingCategory = knowledge.categories.find(c => c.id === id);
+            document.getElementById('categoryModalTitle').textContent = 'Edit Category';
+            document.getElementById('categoryName').value = currentEditingCategory.name;
+            document.getElementById('categoryDesc').value = currentEditingCategory.description || '';
+            document.getElementById('categoryModal').classList.add('active');
+        }
+
+        function closeCategoryModal() {
+            document.getElementById('categoryModal').classList.remove('active');
+            currentEditingCategory = null;
+        }
+
+        function saveCategoryModal(e) {
+            e.preventDefault();
+            const name = document.getElementById('categoryName').value;
+            const description = document.getElementById('categoryDesc').value;
+
+            if (currentEditingCategory) {
+                currentEditingCategory.name = name;
+                currentEditingCategory.description = description;
+                showMessage('Category updated', 'success');
+            } else {
+                knowledge.categories.push({
+                    id: Date.now(),
+                    name: name,
+                    description: description
+                });
+                showMessage('Category created', 'success');
+            }
+
+            saveToStorage();
+            renderCategories();
+            closeCategoryModal();
+        }
+
+        function deleteCategory(id) {
+            if (confirm('Delete this category? Entries in this category will remain but unassigned.')) {
+                knowledge.categories = knowledge.categories.filter(c => c.id !== id);
+                saveToStorage();
+                renderCategories();
+                showMessage('Category deleted', 'success');
+            }
+        }
+
+        function openEntryModal() {
+            currentEditingEntry = null;
+            document.getElementById('entryModalTitle').textContent = 'New Knowledge Entry';
+            document.getElementById('entryCategory').value = '';
+            document.getElementById('entryTitle').value = '';
+            document.getElementById('entryContent').value = '';
+            populateCategorySelect();
+            document.getElementById('entryModal').classList.add('active');
+        }
+
+        function editEntry(id) {
+            currentEditingEntry = knowledge.entries.find(e => e.id === id);
+            document.getElementById('entryModalTitle').textContent = 'Edit Entry';
+            document.getElementById('entryCategory').value = currentEditingEntry.categoryId;
+            document.getElementById('entryTitle').value = currentEditingEntry.title;
+            document.getElementById('entryContent').value = currentEditingEntry.content;
+            populateCategorySelect();
+            document.getElementById('entryModal').classList.add('active');
+        }
+
+        function closeEntryModal() {
+            document.getElementById('entryModal').classList.remove('active');
+            currentEditingEntry = null;
+        }
+
+        function saveEntryModal(e) {
+            e.preventDefault();
+            const categoryId = parseInt(document.getElementById('entryCategory').value);
+            const title = document.getElementById('entryTitle').value;
+            const content = document.getElementById('entryContent').value;
+
+            if (currentEditingEntry) {
+                currentEditingEntry.categoryId = categoryId;
+                currentEditingEntry.title = title;
+                currentEditingEntry.content = content;
+                currentEditingEntry.modified = new Date().toISOString();
+                showMessage('Entry updated', 'success');
+            } else {
+                knowledge.entries.push({
+                    id: Date.now(),
+                    categoryId: categoryId,
+                    title: title,
+                    content: content,
+                    created: new Date().toISOString(),
+                    modified: new Date().toISOString()
+                });
+                showMessage('Entry created', 'success');
+            }
+
+            saveToStorage();
+            renderCategories();
+            closeEntryModal();
+        }
+
+        function deleteEntry(id) {
+            if (confirm('Delete this entry?')) {
+                knowledge.entries = knowledge.entries.filter(e => e.id !== id);
+                saveToStorage();
+                renderCategories();
+                showMessage('Entry deleted', 'success');
+            }
+        }
+
+        function populateCategorySelect() {
+            const select = document.getElementById('entryCategory');
+            select.innerHTML = '<option value="">Select a category...</option>';
+            knowledge.categories.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat.id;
+                option.textContent = cat.name;
+                select.appendChild(option);
+            });
+        }
+
+        function renderCategories() {
+            const container = document.getElementById('categoriesContainer');
+            
+            if (knowledge.categories.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1/-1;">
+                        <div class="empty-state">
+                            <h3>No categories yet</h3>
+                            <p>Create your first category to get started.</p>
+                            <button class="btn btn-primary" onclick="openCategoryModal()">+ New Category</button>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = knowledge.categories.map(category => {
+                const entriesInCategory = knowledge.entries.filter(e => e.categoryId === category.id);
+                return `
+                    <div class="category-card">
+                        <h3>${escapeHtml(category.name)}</h3>
+                        ${category.description ? `<p style="color: var(--text-light); margin-bottom: 15px;">${escapeHtml(category.description)}</p>` : ''}
+                        <div class="count">${entriesInCategory.length} ${entriesInCategory.length === 1 ? 'entry' : 'entries'}</div>
+                        <div class="actions">
+                            <button class="btn btn-small btn-secondary" onclick="editCategory(${category.id})">Edit</button>
+                            <button class="btn btn-small btn-secondary" onclick="viewCategory(${category.id})">View</button>
+                            <button class="btn btn-small btn-danger" onclick="deleteCategory(${category.id})">Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function viewCategory(categoryId) {
+            const category = knowledge.categories.find(c => c.id === categoryId);
+            const entries = knowledge.entries.filter(e => e.categoryId === categoryId);
+            
+            const container = document.getElementById('categoriesContainer');
+            
+            let html = `
+                <div style="grid-column: 1/-1; margin-bottom: 20px;">
+                    <button class="btn btn-secondary" onclick="renderCategories()" style="margin-bottom: 20px;">← Back to Categories</button>
+                    <h2 style="color: var(--primary); margin-bottom: 20px;">${escapeHtml(category.name)}</h2>
+            `;
+
+            if (entries.length === 0) {
+                html += `
+                    <div class="empty-state">
+                        <p>No entries in this category yet.</p>
+                        <button class="btn btn-primary" onclick="openEntryModal()">+ Add Entry</button>
+                    </div>
+                `;
+            } else {
+                html += `<div class="entries-list">`;
+                entries.forEach(entry => {
+                    html += `
+                        <div class="entry-item">
+                            <h4>${escapeHtml(entry.title)}</h4>
+                            <div class="content">${escapeHtml(entry.content)}</div>
+                            <div class="actions">
+                                <button class="btn btn-small btn-secondary" onclick="editEntry(${entry.id})">Edit</button>
+                                <button class="btn btn-small btn-danger" onclick="deleteEntry(${entry.id})">Delete</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            }
+            
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const resultsContainer = document.getElementById('searchResults');
+            
+            if (!query) {
+                resultsContainer.innerHTML = '';
+                switchTab('browse');
+                return;
+            }
+
+            const results = knowledge.entries.filter(entry => 
+                entry.title.toLowerCase().includes(query) ||
+                entry.content.toLowerCase().includes(query)
+            );
+
+            if (results.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No results found</h3>
+                        <p>Try different keywords.</p>
+                    </div>
+                `;
+            } else {
+                let html = `<div class="entries-list">`;
+                results.forEach(entry => {
+                    const category = knowledge.categories.find(c => c.id === entry.categoryId);
+                    html += `
+                        <div class="entry-item">
+                            <span class="category-label">${escapeHtml(category?.name || 'Uncategorized')}</span>
+                            <h4>${escapeHtml(entry.title)}</h4>
+                            <div class="content">${escapeHtml(entry.content)}</div>
+                            <div class="actions">
+                                <button class="btn btn-small btn-secondary" onclick="editEntry(${entry.id})">Edit</button>
+                                <button class="btn btn-small btn-danger" onclick="deleteEntry(${entry.id})">Delete</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+                resultsContainer.innerHTML = html;
+            }
+
+            switchTab('search');
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function exportData() {
+            const dataStr = JSON.stringify(knowledge, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `ren-knowledge-base-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            showMessage('Knowledge base exported', 'success');
+        }
+
+        function importData(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    const imported = JSON.parse(event.target.result);
+                    if (imported.categories && imported.entries) {
+                        if (confirm('Replace all current data with imported data?')) {
+                            knowledge = imported;
+                            saveToStorage();
+                            renderCategories();
+                            populateCategorySelect();
+                            showMessage('Data imported successfully', 'success');
+                        }
+                    } else {
+                        showMessage('Invalid import file format', 'error');
+                    }
+                } catch (err) {
+                    showMessage('Error reading file: ' + err.message, 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function saveToStorage() {
+            localStorage.setItem('renKnowledgeBase', JSON.stringify(knowledge));
+        }
+
+        function loadFromStorage() {
+            const stored = localStorage.getItem('renKnowledgeBase');
+            if (stored) {
+                knowledge = JSON.parse(stored);
+            }
+        }
+
+        function showMessage(text, type) {
+            const container = document.getElementById('messages');
+            const message = document.createElement('div');
+            message.className = `message ${type}`;
+            message.textContent = text;
+            container.appendChild(message);
+            setTimeout(() => message.remove(), 3000);
+        }
+
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+    </script>
+</body>
+</html>
