@@ -94,7 +94,7 @@ main{max-width:1140px;margin:0 auto;padding:20px 24px;}
   <div id="mc"></div>
 </main>
 <script>
-const DC={Administration:['#d4e4f7','#0C447C'],Artistic:['#fae8d4','#412402'],Education:['#d9f0c4','#27500A'],Marketing:['#f9ddd0','#4A1B0C'],Operations:['#c8f0e4','#085041'],Technical:['#dfddd9','#2C2C2A'],Board:['#d9d6f5','#26215C']};
+const DC={Administration:['#e5ecf5','#252d44'],Artistic:['#d3ecf8','#1a608e'],Education:['#dbf1f8','#0d7a96'],Marketing:['#e0f3fb','#2a85b0'],Operations:['#dce8f3','#3a5075'],Technical:['#d7e5f0','#2a5a80'],Board:['#cce0f0','#14426a']};
 const DEPTS=['Administration','Artistic','Education','Marketing','Operations','Technical','Board'];
 const STATUSES=['Employee','Contractor','Volunteer'];
 const MISSIONS=['Mission Foundation','Mission Delivery','Mission Advancement'];
@@ -156,10 +156,10 @@ function removeRole(id,idx){captureEdit(id);const p=staffData.find(s=>s.id===id)
 function renderDCard(p,dep){
   const role=roleFor(p,dep);const c=DC[role.d]||DC.Board;
   const others=p.roles?p.roles.filter(r=>r.d!==dep):[];
-  return`<div class="scard" id="dc_${p.id}_${dep.replace(/ /g,'_')}">
+  return`<div class="scard" id="dc_${p.id}_${dep.replace(/ /g,'_')}" style="background:${c[0]};border-left:3px solid ${c[1]};">
     ${p.multi?`<div style="display:flex;align-items:center;gap:6px;"><span class="pill" style="background:var(--w-bg);color:var(--w-tx);font-size:10px;">⦻ Multi-role</span>${others.map(r=>`<span style="font-size:10px;color:var(--t3);">+ ${r.d}</span>`).join('')}</div>`:''}
     <div style="display:flex;align-items:flex-start;gap:9px;">
-      <div style="width:32px;height:32px;border-radius:50%;background:${c[0]};color:${c[1]};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0;">${ini(p.n)}</div>
+      <div style="width:32px;height:32px;border-radius:50%;background:${c[1]};color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0;">${ini(p.n)}</div>
       <div style="min-width:0;flex:1;">
         <p style="font-size:13px;font-weight:500;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(p.n)}</p>
         <p style="font-size:11px;color:var(--t2);margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(role.t)}</p>
