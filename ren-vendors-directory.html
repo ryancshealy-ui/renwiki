@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RENWiki — Vendors Directory</title>
+    <style>
+        :root {
+            /* Ren Brand Colors - Official Renaissance Theatre Palette */
+            --color-primary: #252d44;      /* Ren Blue - Dark, professional header color */
+            --color-secondary: #89c6e8;   /* Ren Accent Blue - Light accent for highlights */
+            --color-accent: #FFFFFF;      /* Elegant White - Text on primary */
+            --color-bg: #ffffff;
+            --color-text: #2a2a2a;
+            --color-border: #e0e0e0;
+            --color-hover: #f5f8fb;       /* Very light blue-tinted for hover */
+            --color-input: #fafbfc;
+            --color-success: #2d7a3e;
+            --color-danger: #c53030;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--color-primary) 0%, #1a1f2e 100%);
+            color: var(--color-accent);
+            padding: 40px 30px;
+            border-bottom: 3px solid var(--color-secondary);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .header-content {
+            text-align: center;
+            flex: 1;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .header-nav a {
+            color: var(--color-accent);
+            text-decoration: none;
+            padding: 6px 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .header-nav a:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--color-secondary);
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .tagline {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 300;
+            letter-spacing: 0.3px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .toolbar input,
+        .toolbar select,
+        .toolbar button {
+            padding: 10px 14px;
+            border: 1px solid var(--color-border);
+            background-color: var(--color-input);
+            color: var(--color-text);
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .toolbar input {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .toolbar input::placeholder {
+            color: #999;
+        }
+
+        .toolbar button {
+            background-color: var(--color-primary);
+            color: var(--color-accent);
+            border: none;
+            font-weight: 600;
+            padding: 10px 18px;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .toolbar button:hover {
+            background-color: #1a1f2e;
+            transform: translateY(-1px);
+        }
+
+        .export-section {
+            padding: 15px;
+            background-color: var(--color-hover);
+            border-radius: 4px;
+            border-left: 3px solid var(--color-secondary);
+            margin-bottom: 25px;
+        }
+
+        .export-section h3 {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .export-buttons button {
+            padding: 8px 14px;
+            font-size: 13px;
+            background-color: var(--color-primary);
+            color: var(--color-accent);
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .export-buttons button:hover {
+            background-color: #1a1f2e;
+        }
+
+        .status-message {
+            padding: 14px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .status-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .category-section {
+            margin-bottom: 20px;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            overflow: hidden;
+            background-color: var(--color-bg);
+        }
+
+        .category-header {
+            background: linear-gradient(90deg, var(--color-primary) 0%, #1a1f2e 100%);
+            color: var(--color-accent);
+            padding: 14px 18px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            user-select: none;
+            transition: all 0.2s;
+        }
+
+        .category-header:hover {
+            background: linear-gradient(90deg, #1a1f2e 0%, #0f1419 100%);
+        }
+
+        .category-header .toggle-icon {
+            font-size: 16px;
+            transition: transform 0.3s;
+        }
+
+        .category-header .toggle-icon.collapsed {
+            transform: rotate(-90deg);
+        }
+
+        .category-content {
+            max-height: 2000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .category-content.collapsed {
+            max-height: 0;
+        }
+
+        .vendor-row {
+            padding: 16px 18px;
+            border-bottom: 1px solid var(--color-border);
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .vendor-row:last-child {
+            border-bottom: none;
+        }
+
+        .vendor-row:hover {
+            background-color: var(--color-hover);
+        }
+
+        .vendor-field {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .vendor-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            color: var(--color-primary);
+            opacity: 0.8;
+        }
+
+        .vendor-value {
+            font-size: 14px;
+            word-break: break-word;
+            font-weight: 500;
+        }
+
+        .vendor-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 14px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-link {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+            word-break: break-all;
+        }
+
+        .contact-link:hover {
+            color: var(--color-secondary);
+            text-decoration: underline;
+        }
+
+        .phone-icon::before {
+            content: "☎ ";
+        }
+
+        .email-icon::before {
+            content: "✉ ";
+        }
+
+        .web-icon::before {
+            content: "🌐 ";
+        }
+
+        .vendor-actions {
+            text-align: right;
+        }
+
+        .btn-edit, .btn-delete {
+            border: none;
+            padding: 6px 12px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: background-color 0.2s;
+            margin-right: 6px;
+        }
+
+        .btn-edit {
+            background-color: var(--color-secondary);
+            color: #252d44;
+        }
+
+        .btn-edit:hover {
+            background-color: #6bb3d9;
+        }
+
+        .btn-delete {
+            background-color: var(--color-danger);
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background-color: #a02a2a;
+        }
+
+        .add-vendor-form {
+            background-color: var(--color-hover);
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 3px solid var(--color-secondary);
+        }
+
+        .add-vendor-form h3 {
+            color: var(--color-primary);
+            margin-bottom: 15px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-row.full {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: var(--color-primary);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 10px;
+            border: 1px solid var(--color-border);
+            background-color: var(--color-input);
+            color: var(--color-text);
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .form-buttons button {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .form-buttons .btn-save {
+            background-color: var(--color-success);
+            color: white;
+        }
+
+        .form-buttons .btn-save:hover {
+            background-color: #216a2d;
+        }
+
+        .form-buttons .btn-cancel {
+            background-color: #999;
+            color: white;
+        }
+
+        .form-buttons .btn-cancel:hover {
+            background-color: #777;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .vendor-count {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-left: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .vendor-row {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .toolbar {
+                flex-direction: column;
+            }
+
+            .toolbar input,
+            .toolbar select {
+                width: 100%;
+            }
+        }
+
+        @media print {
+            .toolbar, .export-section, .add-vendor-form, header, .vendor-actions {
+                display: none;
+            }
+
+            .category-section {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>🏛️ RENWiki — Vendors Directory</h1>
+            <p class="tagline">Renaissance Performing Arts | Internal Staff Resource</p>
+        </div>
+        <div class="header-nav">
+            <a href="ren-dashboard.html">← Dashboard</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="content">
+            <div id="statusMessage"></div>
+
+            <div class="toolbar">
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search vendors, contacts, services..."
+                >
+                <button onclick="toggleAddForm()">+ Add Vendor</button>
+                <button onclick="printTable()">🖨 Print</button>
+            </div>
+
+            <div id="addVendorForm" class="add-vendor-form hidden">
+                <h3>Add New Vendor</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="newCategory">
+                            <option value="Concessions & Bar">Concessions & Bar</option>
+                            <option value="Facilities & Maintenance">Facilities & Maintenance</option>
+                            <option value="Cleaning">Cleaning</option>
+                            <option value="Utilities">Utilities</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Company Name</label>
+                        <input type="text" id="newCompany" placeholder="e.g., Gold Medal">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Contact Name</label>
+                        <input type="text" id="newContactName" placeholder="e.g., John Smith">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="text" id="newPhone" placeholder="(419) 555-1234">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" id="newEmail" placeholder="email@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Website</label>
+                        <input type="text" id="newWebsite" placeholder="https://example.com">
+                    </div>
+                </div>
+                <div class="form-row full">
+                    <div class="form-group">
+                        <label>Notes (delivery day, payment terms, customer#, etc.)</label>
+                        <textarea id="newNotes" placeholder="e.g., Wednesdays. Check due on delivery. Call ahead for stock."></textarea>
+                    </div>
+                </div>
+                <div class="form-buttons">
+                    <button class="btn-save" onclick="addVendor()">Save Vendor</button>
+                    <button class="btn-cancel" onclick="resetForm()">Cancel</button>
+                </div>
+            </div>
+
+            <div class="export-section">
+                <h3>📤 Data Management</h3>
+                <div class="export-buttons">
+                    <button onclick="exportJSON()">Export as JSON</button>
+                    <button onclick="importJSON()">Import from JSON</button>
+                </div>
+                <input type="file" id="importFile" accept=".json" style="display: none;">
+            </div>
+
+            <div id="categoriesContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        let vendors = JSON.parse(localStorage.getItem('renVendors')) || [
+            {
+                id: 1,
+                category: "Concessions & Bar",
+                company: "Gold Medal",
+                contactName: "Ryan",
+                phone: "(614) 228-1155",
+                email: "ryan@mansfieldtickets.com",
+                website: "https://www.gmpopcorn.com/",
+                notes: "Popcorn supplier. Wednesdays."
+            },
+            {
+                id: 2,
+                category: "Concessions & Bar",
+                company: "Kroger",
+                contactName: "",
+                phone: "(419) 756-6049",
+                email: "",
+                website: "",
+                notes: "Liquor. Call State store (Lex Ave). Pick up only. Pay with company card."
+            },
+            {
+                id: 3,
+                category: "Concessions & Bar",
+                company: "Cypress Cellers",
+                contactName: "Shawn",
+                phone: "",
+                email: "",
+                website: "",
+                notes: "Wine, White Claw, etc. Call or text."
+            },
+            {
+                id: 4,
+                category: "Concessions & Bar",
+                company: "Heidleburg",
+                contactName: "",
+                phone: "(440) 787-2255",
+                email: "",
+                website: "",
+                notes: "Wine/White Claw. Customer #37165. Used to be Thursdays—CONFIRM."
+            },
+            {
+                id: 5,
+                category: "Concessions & Bar",
+                company: "Mansfield Distributing",
+                contactName: "",
+                phone: "(419) 747-4777",
+                email: "",
+                website: "",
+                notes: "Beer. Wednesdays? Ask for total. Create check request. Check due on delivery."
+            },
+            {
+                id: 6,
+                category: "Concessions & Bar",
+                company: "Phoenix",
+                contactName: "Scott Cardwell",
+                phone: "(419) 631-3153",
+                email: "",
+                website: "",
+                notes: "Beer/Kegs. Call or text. Check due on delivery. Varies."
+            },
+            {
+                id: 7,
+                category: "Utilities",
+                company: "Airgas",
+                contactName: "",
+                phone: "(419) 524-0511",
+                email: "",
+                website: "",
+                notes: "CO2 tanks for kegs. 45 E Longview Ave. Call ahead, switch out in person. Pay with card."
+            },
+            {
+                id: 8,
+                category: "Facilities & Maintenance",
+                company: "G&L",
+                contactName: "",
+                phone: "",
+                email: "ryan@mansfieldtickets.com",
+                website: "https://jantoncompany.com/B2B/Home",
+                notes: "Janitorial company."
+            },
+            {
+                id: 9,
+                category: "Concessions & Bar",
+                company: "Pepsi",
+                contactName: "",
+                phone: "",
+                email: "",
+                website: "",
+                notes: "Soda/Water supplier."
+            },
+            {
+                id: 10,
+                category: "Cleaning",
+                company: "Pinnacle",
+                contactName: "Sonya Morgan",
+                phone: "",
+                email: "",
+                website: "",
+                notes: "Cleaning services."
+            },
+            {
+                id: 11,
+                category: "Facilities & Maintenance",
+                company: "Mr. Rooter",
+                contactName: "",
+                phone: "",
+                email: "",
+                website: "",
+                notes: "Plumbing services."
+            },
+            {
+                id: 12,
+                category: "Utilities",
+                company: "Spring Electrics",
+                contactName: "",
+                phone: "",
+                email: "",
+                website: "",
+                notes: "Electrical services."
+            },
+            {
+                id: 13,
+                category: "Utilities",
+                company: "MG Energy",
+                contactName: "",
+                phone: "",
+                email: "",
+                website: "",
+                notes: "HVAC services."
+            }
+        ];
+
+        let nextId = Math.max(...vendors.map(v => v.id), 0) + 1;
+        const categoryOrder = ["Concessions & Bar", "Facilities & Maintenance", "Cleaning", "Utilities", "Other"];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderByCategory();
+            document.getElementById('searchInput').addEventListener('input', renderByCategory);
+            document.getElementById('importFile').addEventListener('change', handleImport);
+        });
+
+        function renderByCategory() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const container = document.getElementById('categoriesContainer');
+            container.innerHTML = '';
+
+            const grouped = {};
+            vendors.forEach(v => {
+                if (!grouped[v.category]) grouped[v.category] = [];
+                grouped[v.category].push(v);
+            });
+
+            categoryOrder.forEach(cat => {
+                if (!grouped[cat]) return;
+
+                const filtered = grouped[cat].filter(v => {
+                    return !search ||
+                        v.company.toLowerCase().includes(search) ||
+                        v.contactName.toLowerCase().includes(search) ||
+                        v.phone.toLowerCase().includes(search) ||
+                        v.email.toLowerCase().includes(search) ||
+                        v.notes.toLowerCase().includes(search);
+                });
+
+                if (filtered.length === 0) return;
+
+                const section = document.createElement('div');
+                section.className = 'category-section';
+
+                const header = document.createElement('div');
+                header.className = 'category-header';
+                header.onclick = () => toggleCategory(header, content);
+                header.innerHTML = `
+                    <span>${cat}</span>
+                    <span class="vendor-count">${filtered.length}</span>
+                    <span class="toggle-icon">▶</span>
+                `;
+
+                const content = document.createElement('div');
+                content.className = 'category-content';
+
+                filtered.forEach(vendor => {
+                    const row = document.createElement('div');
+                    row.className = 'vendor-row';
+                    row.innerHTML = `
+                        <div class="vendor-field">
+                            <div class="vendor-label">Company</div>
+                            <div class="vendor-value">${escapeHtml(vendor.company)}</div>
+                        </div>
+                        <div class="vendor-field">
+                            <div class="vendor-label">Contact</div>
+                            <div class="vendor-contact">
+                                ${vendor.contactName ? `<div class="contact-item">${escapeHtml(vendor.contactName)}</div>` : ''}
+                                ${vendor.phone ? `<div class="contact-item phone-icon"><a href="tel:${escapeHtml(vendor.phone)}" class="contact-link">${escapeHtml(vendor.phone)}</a></div>` : ''}
+                                ${vendor.email ? `<div class="contact-item email-icon"><a href="mailto:${escapeHtml(vendor.email)}" class="contact-link">${escapeHtml(vendor.email)}</a></div>` : ''}
+                                ${vendor.website ? `<div class="contact-item web-icon"><a href="${escapeHtml(vendor.website)}" target="_blank" class="contact-link">${escapeHtml(vendor.website)}</a></div>` : ''}
+                            </div>
+                        </div>
+                        <div class="vendor-field">
+                            <div class="vendor-label">Notes</div>
+                            <div class="vendor-value">${escapeHtml(vendor.notes)}</div>
+                            <div class="vendor-actions" style="margin-top: 8px;">
+                                <button class="btn-edit" onclick="editVendor(${vendor.id})">Edit</button>
+                                <button class="btn-delete" onclick="deleteVendor(${vendor.id})">Delete</button>
+                            </div>
+                        </div>
+                    `;
+                    content.appendChild(row);
+                });
+
+                section.appendChild(header);
+                section.appendChild(content);
+                container.appendChild(section);
+            });
+        }
+
+        function toggleCategory(header, content) {
+            content.classList.toggle('collapsed');
+            header.querySelector('.toggle-icon').classList.toggle('collapsed');
+        }
+
+        function toggleAddForm() {
+            document.getElementById('addVendorForm').classList.toggle('hidden');
+        }
+
+        let editingVendorId = null;
+
+        function editVendor(vendorId) {
+            const vendor = vendors.find(v => v.id === vendorId);
+            if (!vendor) return;
+
+            editingVendorId = vendorId;
+            document.getElementById('newCategory').value = vendor.category;
+            document.getElementById('newCompany').value = vendor.company;
+            document.getElementById('newContactName').value = vendor.contactName;
+            document.getElementById('newPhone').value = vendor.phone;
+            document.getElementById('newEmail').value = vendor.email;
+            document.getElementById('newWebsite').value = vendor.website;
+            document.getElementById('newNotes').value = vendor.notes;
+
+            const formTitle = document.querySelector('.add-vendor-form h3');
+            const saveButton = document.querySelector('.form-buttons .btn-save');
+            formTitle.textContent = 'Edit Vendor';
+            saveButton.textContent = 'Update Vendor';
+
+            const form = document.getElementById('addVendorForm');
+            form.classList.remove('hidden');
+            form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function addVendor() {
+            const category = document.getElementById('newCategory').value;
+            const company = document.getElementById('newCompany').value;
+            const contactName = document.getElementById('newContactName').value;
+            const phone = document.getElementById('newPhone').value;
+            const email = document.getElementById('newEmail').value;
+            const website = document.getElementById('newWebsite').value;
+            const notes = document.getElementById('newNotes').value;
+
+            if (!company) {
+                showStatus('Company name is required!', 'error');
+                return;
+            }
+
+            if (editingVendorId !== null) {
+                // Update existing vendor
+                const vendor = vendors.find(v => v.id === editingVendorId);
+                vendor.category = category;
+                vendor.company = company;
+                vendor.contactName = contactName;
+                vendor.phone = phone;
+                vendor.email = email;
+                vendor.website = website;
+                vendor.notes = notes;
+                showStatus('Vendor updated!', 'success');
+                editingVendorId = null;
+            } else {
+                // Add new vendor
+                vendors.push({
+                    id: nextId++,
+                    category,
+                    company,
+                    contactName,
+                    phone,
+                    email,
+                    website,
+                    notes
+                });
+                showStatus('Vendor added!', 'success');
+            }
+
+            saveToLocalStorage();
+            renderByCategory();
+            resetForm();
+        }
+
+        function resetForm() {
+            document.getElementById('newCategory').value = "Concessions & Bar";
+            document.getElementById('newCompany').value = '';
+            document.getElementById('newContactName').value = '';
+            document.getElementById('newPhone').value = '';
+            document.getElementById('newEmail').value = '';
+            document.getElementById('newWebsite').value = '';
+            document.getElementById('newNotes').value = '';
+
+            const formTitle = document.querySelector('.add-vendor-form h3');
+            const saveButton = document.querySelector('.form-buttons .btn-save');
+            formTitle.textContent = 'Add New Vendor';
+            saveButton.textContent = 'Save Vendor';
+
+            toggleAddForm();
+        }
+
+        function deleteVendor(vendorId) {
+            if (!confirm('Delete this vendor?')) return;
+            vendors = vendors.filter(v => v.id !== vendorId);
+            saveToLocalStorage();
+            renderByCategory();
+            showStatus('Vendor deleted!', 'success');
+        }
+
+        function exportJSON() {
+            const data = JSON.stringify(vendors, null, 2);
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ren-vendors-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showStatus('Vendors exported!', 'success');
+        }
+
+        function importJSON() {
+            document.getElementById('importFile').click();
+        }
+
+        function handleImport(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    const imported = JSON.parse(event.target.result);
+                    if (!Array.isArray(imported)) throw new Error('Invalid format');
+                    vendors = imported;
+                    nextId = Math.max(...vendors.map(v => v.id), 0) + 1;
+                    saveToLocalStorage();
+                    renderByCategory();
+                    showStatus('Vendors imported!', 'success');
+                } catch (err) {
+                    showStatus('Import failed: ' + err.message, 'error');
+                }
+            };
+            reader.readAsText(file);
+            e.target.value = '';
+        }
+
+        function printTable() {
+            window.print();
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem('renVendors', JSON.stringify(vendors));
+        }
+
+        function showStatus(message, type) {
+            const el = document.getElementById('statusMessage');
+            el.className = `status-message status-${type}`;
+            el.textContent = message;
+            setTimeout(() => el.textContent = '', 3000);
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+    </script>
+</body>
+</html>

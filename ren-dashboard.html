@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RenWiki Dashboard - Renaissance Theatre</title>
+    <style>
+        :root {
+            --color-primary: #252d44;
+            --color-primary-dark: #1a1f2e;
+            --color-secondary: #89c6e8;
+            --color-accent: #FFFFFF;
+            --color-border: #e0e0e0;
+            --color-text-dark: #333;
+            --color-text-light: #666;
+            --color-bg-light: #f9f9f9;
+            --color-success: #4caf50;
+            --color-warning: #ff9800;
+            --color-error: #f44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+            color: var(--color-text-dark);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            color: var(--color-accent);
+            padding: 40px 30px;
+            border-bottom: 3px solid var(--color-secondary);
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        /* DateTime Display */
+        .datetime-section {
+            background: var(--color-accent);
+            border: 2px solid var(--color-secondary);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .datetime-section h2 {
+            color: var(--color-primary);
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+
+        #current-date {
+            font-size: 1.8em;
+            color: var(--color-primary);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        #current-time {
+            font-size: 2.5em;
+            color: var(--color-secondary);
+            font-weight: 700;
+            font-family: 'Monaco', 'Courier New', monospace;
+        }
+
+        /* Main Content Grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Next Show Card */
+        .next-show-card {
+            background: var(--color-accent);
+            border: 2px solid var(--color-secondary);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .next-show-card h2 {
+            color: var(--color-primary);
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        .show-details {
+            padding: 15px;
+            background: var(--color-bg-light);
+            border-left: 4px solid var(--color-secondary);
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .show-details.empty {
+            color: var(--color-text-light);
+            font-style: italic;
+            text-align: center;
+            padding: 30px 15px;
+        }
+
+        .show-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: 8px;
+        }
+
+        .show-info {
+            font-size: 0.95em;
+            color: var(--color-text-light);
+            margin: 5px 0;
+        }
+
+        .show-info strong {
+            color: var(--color-primary);
+        }
+
+        .manage-shows-btn {
+            background: var(--color-secondary);
+            color: var(--color-primary);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        .manage-shows-btn:hover {
+            background: var(--color-primary);
+            color: var(--color-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(137, 198, 232, 0.3);
+        }
+
+        /* Quick Links Section */
+        .quick-links {
+            background: var(--color-accent);
+            border: 2px solid var(--color-secondary);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .quick-links h2 {
+            color: var(--color-primary);
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .module-link {
+            display: block;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            color: var(--color-accent);
+            text-decoration: none;
+            border-radius: 4px;
+            border-left: 4px solid var(--color-secondary);
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .module-link:hover {
+            background: linear-gradient(135deg, var(--color-secondary) 0%, #6fa8d1 100%);
+            color: var(--color-primary);
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(137, 198, 232, 0.3);
+        }
+
+        .module-link .icon {
+            display: block;
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--color-accent);
+            border-radius: 8px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--color-border);
+        }
+
+        .modal-header h2 {
+            color: var(--color-primary);
+            margin: 0;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: var(--color-text-light);
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--color-primary);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--color-primary);
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 0.95em;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--color-secondary);
+            box-shadow: 0 0 0 3px rgba(137, 198, 232, 0.1);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid var(--color-border);
+        }
+
+        .btn {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+        }
+
+        .btn-primary {
+            background: var(--color-secondary);
+            color: var(--color-primary);
+        }
+
+        .btn-primary:hover {
+            background: #6fa8d1;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(137, 198, 232, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--color-border);
+            color: var(--color-text-dark);
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .btn-danger {
+            background: var(--color-error);
+            color: var(--color-accent);
+        }
+
+        .btn-danger:hover {
+            background: #d32f2f;
+        }
+
+        /* Show List in Modal */
+        .shows-list {
+            margin-bottom: 20px;
+        }
+
+        .show-item {
+            background: var(--color-bg-light);
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid var(--color-secondary);
+        }
+
+        .show-item-info {
+            flex: 1;
+        }
+
+        .show-item-title {
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: 3px;
+        }
+
+        .show-item-date {
+            font-size: 0.85em;
+            color: var(--color-text-light);
+        }
+
+        .show-item-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 0.8em;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-sm-edit {
+            background: var(--color-secondary);
+            color: var(--color-primary);
+        }
+
+        .btn-sm-edit:hover {
+            background: #6fa8d1;
+        }
+
+        .btn-sm-delete {
+            background: var(--color-error);
+            color: var(--color-accent);
+        }
+
+        .btn-sm-delete:hover {
+            background: #d32f2f;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--color-text-light);
+            font-size: 0.9em;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: var(--color-secondary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎭 RenWiki Dashboard</h1>
+            <p>Renaissance Theatre Staff Portal</p>
+        </header>
+
+        <div class="datetime-section">
+            <h2>Current Date & Time</h2>
+            <div id="current-date">—</div>
+            <div id="current-time">—</div>
+        </div>
+
+        <div class="main-grid">
+            <div class="next-show-card">
+                <h2>Next Upcoming Show</h2>
+                <div id="next-show-display" class="show-details empty">
+                    No shows scheduled yet. Manage shows to add upcoming productions.
+                </div>
+                <button class="manage-shows-btn" onclick="openManageShowsModal()">Manage Shows</button>
+            </div>
+
+            <div class="quick-links">
+                <h2>Quick Links</h2>
+                <div class="links-grid">
+                    <a href="ren-staff-directory.html" class="module-link">
+                        <span class="icon">👥</span>
+                        Staff Directory
+                    </a>
+                    <a href="ren-vendors-directory.html" class="module-link">
+                        <span class="icon">🏢</span>
+                        Vendors Directory
+                    </a>
+                    <a href="ren-hr-handbook.html" class="module-link">
+                        <span class="icon">📖</span>
+                        HR Handbook
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Manage Shows Modal -->
+        <div id="manageShowsModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Manage Shows</h2>
+                    <button class="close-btn" onclick="closeManageShowsModal()">&times;</button>
+                </div>
+
+                <div class="shows-list" id="shows-list"></div>
+
+                <h3 style="color: var(--color-primary); margin-bottom: 15px;">Add New Show</h3>
+                <form id="add-show-form" onsubmit="addShow(event)">
+                    <div class="form-group">
+                        <label for="show-title">Show Title *</label>
+                        <input type="text" id="show-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="show-date">Date *</label>
+                        <input type="date" id="show-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="show-time">Time *</label>
+                        <input type="time" id="show-time" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="show-location">Location</label>
+                        <input type="text" id="show-location" placeholder="e.g., Main Stage">
+                    </div>
+                    <div class="form-group">
+                        <label for="show-description">Description</label>
+                        <textarea id="show-description" rows="3" placeholder="Show details..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Add Show</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeManageShowsModal()">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Renaissance Theatre. RenWiki Dashboard v1.0</p>
+    </footer>
+
+    <script>
+        // Constants
+        const STORAGE_KEY = 'renShowsData';
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadShowsFromJSON();
+            updateDateTime();
+            updateNextShow();
+            renderShowsList();
+
+            // Update time every second
+            setInterval(updateDateTime, 1000);
+            // Update next show every minute
+            setInterval(updateNextShow, 60000);
+        });
+
+        // Load shows from shows-data.json
+        function loadShowsFromJSON() {
+            fetch('shows-data.json')
+                .then(response => {
+                    if (!response.ok) throw new Error('Could not load shows data');
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.shows && Array.isArray(data.shows)) {
+                        // Only update if shows exist in JSON and nothing in localStorage yet
+                        if (localStorage.getItem(STORAGE_KEY) === null) {
+                            saveShows(data.shows);
+                            console.log(`Loaded ${data.shows.length} shows from shows-data.json`);
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.log('No shows-data.json file found - using manual entry mode');
+                    // Fall back to empty shows if file doesn't exist
+                    if (localStorage.getItem(STORAGE_KEY) === null) {
+                        saveShows([]);
+                    }
+                });
+        }
+
+        // Update current date and time display
+        function updateDateTime() {
+            const now = new Date();
+
+            const dateOptions = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            };
+            const dateStr = now.toLocaleDateString('en-US', dateOptions);
+
+            const timeStr = now.toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            });
+
+            document.getElementById('current-date').textContent = dateStr;
+            document.getElementById('current-time').textContent = timeStr;
+        }
+
+        // Get all shows from localStorage
+        function getShows() {
+            const data = localStorage.getItem(STORAGE_KEY);
+            return data ? JSON.parse(data) : [];
+        }
+
+        // Save shows to localStorage
+        function saveShows(shows) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(shows));
+            updateNextShow();
+            renderShowsList();
+        }
+
+        // Find and display the next upcoming show
+        function updateNextShow() {
+            const shows = getShows();
+            const now = new Date();
+
+            // Filter shows that are in the future
+            const futureShows = shows.filter(show => {
+                const showDateTime = new Date(`${show.date}T${show.time}`);
+                return showDateTime > now;
+            });
+
+            // Sort by date and time
+            futureShows.sort((a, b) => {
+                const dateA = new Date(`${a.date}T${a.time}`);
+                const dateB = new Date(`${b.date}T${b.time}`);
+                return dateA - dateB;
+            });
+
+            const display = document.getElementById('next-show-display');
+
+            if (futureShows.length === 0) {
+                display.classList.add('empty');
+                display.innerHTML = 'No shows scheduled yet. Manage shows to add upcoming productions.';
+            } else {
+                const nextShow = futureShows[0];
+                display.classList.remove('empty');
+
+                const showDate = new Date(`${nextShow.date}T${nextShow.time}`);
+                const dateOptions = {
+                    weekday: 'long',
+                    month: 'short',
+                    day: 'numeric'
+                };
+                const formattedDate = showDate.toLocaleDateString('en-US', dateOptions);
+                const formattedTime = showDate.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                });
+
+                let html = `
+                    <div class="show-title">${escapeHtml(nextShow.title)}</div>
+                    <div class="show-info">
+                        <strong>Date:</strong> ${formattedDate}
+                    </div>
+                    <div class="show-info">
+                        <strong>Time:</strong> ${formattedTime}
+                    </div>
+                `;
+
+                if (nextShow.location) {
+                    html += `<div class="show-info"><strong>Location:</strong> ${escapeHtml(nextShow.location)}</div>`;
+                }
+
+                if (nextShow.description) {
+                    html += `<div class="show-info"><strong>Details:</strong> ${escapeHtml(nextShow.description)}</div>`;
+                }
+
+                display.innerHTML = html;
+            }
+        }
+
+        // Render list of all shows in modal
+        function renderShowsList() {
+            const shows = getShows();
+            const listDiv = document.getElementById('shows-list');
+
+            if (shows.length === 0) {
+                listDiv.innerHTML = '<p style="text-align: center; color: var(--color-text-light);">No shows added yet.</p>';
+                return;
+            }
+
+            // Sort by date
+            shows.sort((a, b) => {
+                const dateA = new Date(`${a.date}T${a.time}`);
+                const dateB = new Date(`${b.date}T${b.time}`);
+                return dateA - dateB;
+            });
+
+            let html = '';
+            shows.forEach((show, index) => {
+                const showDate = new Date(`${show.date}T${show.time}`);
+                const dateStr = showDate.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+                const timeStr = showDate.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                });
+
+                html += `
+                    <div class="show-item">
+                        <div class="show-item-info">
+                            <div class="show-item-title">${escapeHtml(show.title)}</div>
+                            <div class="show-item-date">${dateStr} at ${timeStr}</div>
+                        </div>
+                        <div class="show-item-actions">
+                            <button class="btn-sm btn-sm-edit" onclick="editShow(${index})">Edit</button>
+                            <button class="btn-sm btn-sm-delete" onclick="deleteShow(${index})">Delete</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            listDiv.innerHTML = html;
+        }
+
+        // Add new show
+        function addShow(event) {
+            event.preventDefault();
+
+            const title = document.getElementById('show-title').value.trim();
+            const date = document.getElementById('show-date').value;
+            const time = document.getElementById('show-time').value;
+            const location = document.getElementById('show-location').value.trim();
+            const description = document.getElementById('show-description').value.trim();
+
+            if (!title || !date || !time) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            const shows = getShows();
+            shows.push({
+                title,
+                date,
+                time,
+                location,
+                description,
+                id: Date.now()
+            });
+
+            saveShows(shows);
+            document.getElementById('add-show-form').reset();
+            renderShowsList();
+        }
+
+        // Delete show
+        function deleteShow(index) {
+            if (confirm('Are you sure you want to delete this show?')) {
+                const shows = getShows();
+                shows.splice(index, 1);
+                saveShows(shows);
+            }
+        }
+
+        // Edit show (simplified - shows form populated with existing data)
+        function editShow(index) {
+            const shows = getShows();
+            const show = shows[index];
+
+            document.getElementById('show-title').value = show.title;
+            document.getElementById('show-date').value = show.date;
+            document.getElementById('show-time').value = show.time;
+            document.getElementById('show-location').value = show.location || '';
+            document.getElementById('show-description').value = show.description || '';
+
+            // Remove the old show and add the updated one on submit
+            const form = document.getElementById('add-show-form');
+            const oldOnSubmit = form.onsubmit;
+
+            form.onsubmit = function(event) {
+                event.preventDefault();
+                shows.splice(index, 1, {
+                    title: document.getElementById('show-title').value.trim(),
+                    date: document.getElementById('show-date').value,
+                    time: document.getElementById('show-time').value,
+                    location: document.getElementById('show-location').value.trim(),
+                    description: document.getElementById('show-description').value.trim(),
+                    id: show.id
+                });
+                saveShows(shows);
+                form.reset();
+                form.onsubmit = oldOnSubmit;
+                renderShowsList();
+            };
+
+            // Change button text temporarily
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Update Show';
+
+            // Reset on close
+            const closeBtn = document.querySelector('.close-btn');
+            const oldClose = closeBtn.onclick;
+            closeBtn.onclick = function() {
+                form.reset();
+                form.onsubmit = oldOnSubmit;
+                submitBtn.textContent = originalText;
+                closeBtn.onclick = oldClose;
+                closeManageShowsModal();
+            };
+        }
+
+        // Modal functions
+        function openManageShowsModal() {
+            document.getElementById('manageShowsModal').classList.add('active');
+        }
+
+        function closeManageShowsModal() {
+            document.getElementById('manageShowsModal').classList.remove('active');
+            document.getElementById('add-show-form').reset();
+
+            // Reset form onsubmit to default
+            document.getElementById('add-show-form').onsubmit = addShow;
+            document.querySelector('button[type="submit"]').textContent = 'Add Show';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('manageShowsModal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeManageShowsModal();
+            }
+        });
+
+        // Utility function to escape HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>

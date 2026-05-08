@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renaissance HR Handbook</title>
+    <style>
+        :root {
+            --ren-blue: #252d44;
+            --ren-accent-blue: #89c6e8;
+            --ren-white: #ffffff;
+            --ren-bg-light: #f5f8fb;
+            --ren-red: #d32f2f;
+            --text-primary: #333;
+            --text-secondary: #666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f9f9f9;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: var(--ren-blue);
+            color: var(--ren-white);
+            padding: 32px 20px;
+            border-bottom: 4px solid var(--ren-accent-blue);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .header-content {
+            text-align: center;
+            flex: 1;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .header-nav a {
+            color: var(--ren-white);
+            text-decoration: none;
+            padding: 6px 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .header-nav a:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--ren-accent-blue);
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .header p {
+            font-size: 0.95em;
+            opacity: 0.95;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .toolbar {
+            background: var(--ren-white);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--ren-accent-blue);
+            box-shadow: 0 0 0 3px rgba(137, 198, 232, 0.1);
+        }
+
+        .toolbar-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.9em;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--ren-blue);
+            color: var(--ren-white);
+        }
+
+        .btn-primary:hover {
+            background: #1a2035;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 45, 68, 0.2);
+        }
+
+        .btn-secondary {
+            background: var(--ren-accent-blue);
+            color: var(--ren-white);
+        }
+
+        .btn-secondary:hover {
+            background: #6db5d8;
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background: var(--ren-red);
+            color: var(--ren-white);
+        }
+
+        .btn-danger:hover {
+            background: #b71c1c;
+        }
+
+        .status-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 14px 20px;
+            border-radius: 4px;
+            color: var(--ren-white);
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+            max-width: 400px;
+        }
+
+        .status-message.show {
+            opacity: 1;
+        }
+
+        .status-message.success {
+            background: #2e7d32;
+        }
+
+        .status-message.error {
+            background: var(--ren-red);
+        }
+
+        .sections {
+            display: grid;
+            gap: 16px;
+        }
+
+        .section {
+            background: var(--ren-white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .section-header {
+            background: var(--ren-blue);
+            color: var(--ren-white);
+            padding: 16px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .section-header:hover {
+            background: #1a2035;
+        }
+
+        .section-header h2 {
+            font-size: 1.1em;
+            letter-spacing: 0.3px;
+        }
+
+        .section-toggle {
+            font-size: 1.2em;
+            transition: transform 0.3s;
+        }
+
+        .section.collapsed .section-toggle {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 20px;
+            max-height: 4000px;
+            overflow: hidden;
+            transition: max-height 0.3s, opacity 0.3s;
+            opacity: 1;
+        }
+
+        .section.collapsed .section-content {
+            max-height: 0;
+            opacity: 0;
+            padding: 0 20px;
+        }
+
+        .subsection-group {
+            margin-bottom: 24px;
+        }
+
+        .subsection-title {
+            font-size: 0.95em;
+            font-weight: 600;
+            color: var(--ren-blue);
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--ren-accent-blue);
+        }
+
+        .policy-item {
+            margin-bottom: 20px;
+            padding: 14px;
+            background: var(--ren-bg-light);
+            border-left: 4px solid var(--ren-accent-blue);
+            border-radius: 4px;
+        }
+
+        .policy-item h3 {
+            font-size: 1em;
+            margin-bottom: 8px;
+            color: var(--ren-blue);
+        }
+
+        .policy-item p {
+            font-size: 0.95em;
+            color: var(--text-secondary);
+            white-space: pre-wrap;
+            word-break: break-word;
+            line-height: 1.5;
+        }
+
+        .policy-controls {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .policy-btn {
+            padding: 6px 12px;
+            font-size: 0.85em;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .policy-btn-edit {
+            background: var(--ren-accent-blue);
+            color: var(--ren-white);
+        }
+
+        .policy-btn-edit:hover {
+            background: #6db5d8;
+        }
+
+        .policy-btn-delete {
+            background: #ffcdd2;
+            color: var(--ren-red);
+        }
+
+        .policy-btn-delete:hover {
+            background: var(--ren-red);
+            color: var(--ren-white);
+        }
+
+        .form-panel {
+            background: var(--ren-bg-light);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 2px solid var(--ren-accent-blue);
+        }
+
+        .form-panel h3 {
+            margin-bottom: 16px;
+            color: var(--ren-blue);
+            font-size: 1.1em;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: var(--text-primary);
+            font-size: 0.9em;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.95em;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--ren-accent-blue);
+            box-shadow: 0 0 0 3px rgba(137, 198, 232, 0.1);
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .form-buttons .btn {
+            flex: 1;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+
+            .toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-input {
+                min-width: auto;
+            }
+
+            .toolbar-buttons {
+                flex-direction: column;
+            }
+
+            .toolbar-buttons .btn {
+                width: 100%;
+            }
+
+            .section-header {
+                padding: 12px;
+            }
+
+            .section-content {
+                padding: 16px;
+            }
+
+            .form-buttons {
+                flex-direction: column;
+            }
+        }
+
+        @media print {
+            .toolbar, .form-panel {
+                display: none !important;
+            }
+
+            .section {
+                page-break-inside: avoid;
+                margin-bottom: 20px;
+            }
+
+            .section-header {
+                background: var(--ren-blue);
+                color: var(--ren-white);
+            }
+
+            .policy-controls {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>📋 Renaissance HR Handbook</h1>
+            <p>Human Resources Policies & Procedures | 2022 Manual | Updated May 2026</p>
+        </div>
+        <div class="header-nav">
+            <a href="ren-dashboard.html">← Dashboard</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="toolbar">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search policies..." aria-label="Search policies">
+            <div class="toolbar-buttons">
+                <button class="btn btn-primary" onclick="showAddForm()">+ Add Policy</button>
+                <button class="btn btn-secondary" onclick="exportJSON()">Export JSON</button>
+                <button class="btn btn-secondary" onclick="document.getElementById('importFile').click()">Import JSON</button>
+                <button class="btn btn-secondary" onclick="window.print()">Print</button>
+            </div>
+        </div>
+
+        <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importJSON(event)">
+
+        <div class="sections" id="sections"></div>
+    </div>
+
+    <div class="status-message" id="statusMessage"></div>
+
+    <script>
+        // Consolidated HR Handbook Structure - 4 Categories
+        const defaultData = {
+            sections: [
+                {
+                    id: "section-1",
+                    title: "Employment",
+                    order: 1,
+                    collapsed: false,
+                    description: "Beginning, During, and Ending Employment",
+                    subsections: [
+                        {
+                            id: "sub-1-1",
+                            title: "Beginning Employment",
+                            policies: [
+                                {
+                                    id: "p-1-1",
+                                    title: "Welcome",
+                                    content: "Welcome to the Renaissance Performing Arts Association. You will find an opportunity for service and advancement here in an atmosphere of congenial and sensitive employees and management. You have become part of a performing arts organization founded in 1979. Our success has been possible through the dedication and integrity of the staff, volunteers, and board. Your ideas are important to the Renaissance. Please feel free to make suggestions to your supervisor about your work or any part of the Renaissance's operation.",
+                                    subsection: "1.1"
+                                },
+                                {
+                                    id: "p-1-2",
+                                    title: "Mission Statement",
+                                    content: "The Renaissance exists to forge greater human connection and understanding through performing arts experiences that inspire, engage, and educate people of all ages and backgrounds. Through performances that inspire, we enrich individual lives and encourage collective creativity. Through experiences that engage everyone in our community, we create belonging and celebrate our shared humanity. Through educational experiences for all, we nourish imagination and inquiry, improve academic achievement, and contribute to the long-term innovative capacity of our community.",
+                                    subsection: "1.2"
+                                },
+                                {
+                                    id: "p-1-3",
+                                    title: "Confidentiality Policy",
+                                    content: "As a member of the staff of The Renaissance, you will have access to certain confidential and proprietary information including information about customers, donors, pricing strategies, and personnel policies. We expect you to keep this information confidential and not disclose it to third parties even after leaving the Renaissance. Customer and donor information are confidential and are not to be discussed with anyone other than the President & CEO or other employees only as necessary.",
+                                    subsection: "1.3"
+                                },
+                                {
+                                    id: "p-1-4",
+                                    title: "Introductory Period",
+                                    content: "New employees typically go through an introductory period to become familiar with Renaissance operations, procedures, policies, and employees. During this period and at any time, employment can be terminated at the sole discretion of the Renaissance with or without cause and with or without notice.",
+                                    subsection: "2.2"
+                                }
+                            ]
+                        },
+                        {
+                            id: "sub-1-2",
+                            title: "Ending Employment",
+                            policies: [
+                                {
+                                    id: "p-8-1",
+                                    title: "Resignation",
+                                    content: "Part-time employees intending to leave the Renaissance are expected to give two (2) weeks' notice in writing to the President & CEO or Supervisor. Full-time employees are expected to give four (4) weeks' notice in writing to the President & CEO or Supervisor. Failure to give required notice will be reflected in any subsequent reference requests and may result in loss of earned benefits.",
+                                    subsection: "8.2"
+                                },
+                                {
+                                    id: "p-8-2",
+                                    title: "Termination",
+                                    content: "There are certain occurrences that will result in immediate disciplinary action up to and including immediate dismissal, depending on the seriousness of the offense in the judgment of management. The Renaissance may terminate an employee, within its sole discretion, as provided by policy and law.",
+                                    subsection: "8.1"
+                                },
+                                {
+                                    id: "p-8-3",
+                                    title: "Final Payroll & Commission Check",
+                                    content: "Upon termination, an employee will receive the net amount of any earnings after deduction of applicable taxes and monies due and owing the Renaissance. Final payroll checks for salaries and hourly wages will be distributed in accordance with the standard payroll schedule or may be mailed to the employee. Retention of Renaissance property by a terminated employee will be treated as theft and the Renaissance will prosecute accordingly.",
+                                    subsection: "8.3"
+                                },
+                                {
+                                    id: "p-8-4",
+                                    title: "Job Abandonment",
+                                    content: "Any employee who is absent from work for two entire scheduled shifts without notifying his/her supervisor of his/her absence will be considered to have abandoned his/her employment and resigned from further service with The Renaissance.",
+                                    subsection: "8.4"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    id: "section-2",
+                    title: "Time Off & Leave",
+                    order: 2,
+                    collapsed: false,
+                    description: "PTO, Holidays, and Leave Policies",
+                    subsections: [
+                        {
+                            id: "sub-2-1",
+                            title: "Paid Time Off & Holidays",
+                            policies: [
+                                {
+                                    id: "p-5-1",
+                                    title: "Paid Time Off (PTO)",
+                                    content: "Employees earn paid time off according to their employment classification. PTO can be used for vacation, illness, personal days, or other approved absences. For specific accrual rates, usage guidelines, and carryover policies, please contact Human Resources.",
+                                    subsection: "5.2"
+                                },
+                                {
+                                    id: "p-5-2",
+                                    title: "Holidays",
+                                    content: "Renaissance Performing Arts Association observes certain holidays throughout the year. Eligible employees receive paid time off on approved holidays. For the official holiday calendar, holiday eligibility requirements, and holiday pay guidelines, please contact Human Resources.",
+                                    subsection: "5.3"
+                                },
+                                {
+                                    id: "p-5-3",
+                                    title: "Lactation/Breastfeeding",
+                                    content: "In accordance with applicable law, the Renaissance provides nursing mothers with reasonable break time and a private space to express breast milk during the workday.",
+                                    subsection: "5.4"
+                                }
+                            ]
+                        },
+                        {
+                            id: "sub-2-2",
+                            title: "Approved Leaves of Absence",
+                            policies: [
+                                {
+                                    id: "p-6-1",
+                                    title: "Family and Medical Leave Act (FMLA)",
+                                    content: "The Renaissance complies with the Family and Medical Leave Act (FMLA). Eligible employees may take up to 12 weeks of unpaid, job-protected leave in a 12-month period for qualifying reasons including serious health conditions, childbirth, adoption, military family leave, or to care for a family member. For eligibility requirements, notification procedures, and benefit continuation, contact Human Resources.",
+                                    subsection: "6.1"
+                                },
+                                {
+                                    id: "p-6-2",
+                                    title: "Parental Leave",
+                                    content: "Eligible employees may take parental leave for the birth or adoption of a child. For specific provisions regarding duration, benefits continuation, and return-to-work policies, contact Human Resources.",
+                                    subsection: "6.2"
+                                },
+                                {
+                                    id: "p-6-3",
+                                    title: "Jury Duty",
+                                    content: "Employees summoned for jury duty are required to notify their supervisor immediately. The Renaissance recognizes the civic importance of jury service. For information on pay during jury duty and required documentation, contact Human Resources.",
+                                    subsection: "6.3"
+                                },
+                                {
+                                    id: "p-6-4",
+                                    title: "Bereavement Leave",
+                                    content: "Employees are provided with paid leave for the death of an immediate family member. For the definition of immediate family and approved leave duration, contact Human Resources.",
+                                    subsection: "6.4"
+                                },
+                                {
+                                    id: "p-6-5",
+                                    title: "Military Leave",
+                                    content: "The Renaissance complies with all applicable laws regarding military leave and the rights of individuals in the military service. For information on military leave entitlements and procedures, contact Human Resources.",
+                                    subsection: "6.5"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    id: "section-3",
+                    title: "Workplace Standards",
+                    order: 3,
+                    collapsed: false,
+                    description: "Safety, Conduct, and Professional Standards",
+                    subsections: [
+                        {
+                            id: "sub-3-1",
+                            title: "Harassment, Discrimination & Safety",
+                            policies: [
+                                {
+                                    id: "p-1-5",
+                                    title: "Harassment & Discrimination Policy",
+                                    content: "It is the Renaissance's policy to treat all employees with dignity and respect and to provide a work environment free from harassment and illegal discrimination based on race, color, national origin, religion, age, disability, sex (including pregnancy), sexual orientation, veterans status, marital status, genetic information, or any other factor protected by federal, state or local law. The Renaissance will take immediate steps to address complaints of harassment or discrimination based on any protected characteristic. This policy applies to all work-related settings and activities.",
+                                    subsection: "1.4"
+                                },
+                                {
+                                    id: "p-7-5",
+                                    title: "Violence in the Workplace",
+                                    content: "The safety and security of all employees is of primary importance at the Renaissance. Threats, threatening and abusive behavior, or acts of violence against employees, visitors, clients, or other individuals will not be tolerated. Any person who makes threats, exhibits threatening behavior, or engages in violent acts on Renaissance premises shall be removed as quickly as safety permits. Violations of this policy will lead to corrective action up to and including termination and/or referral to appropriate law enforcement agencies.",
+                                    subsection: "7.5"
+                                },
+                                {
+                                    id: "p-7-6",
+                                    title: "Weapons Policy",
+                                    content: "The Renaissance prohibits all persons from carrying a firearm or weapon of any kind into the building. Employees are prohibited from carrying weapons while performing their jobs for the Renaissance. Prohibited weapons include all firearms, knives, metal or brass knuckles, and clubs. The only exceptions are police officers, security guards, or others given written consent by the Renaissance. The Renaissance reserves the right to conduct searches for weapons as deemed necessary.",
+                                    subsection: "7.6"
+                                },
+                                {
+                                    id: "p-4-2",
+                                    title: "Health and Safety",
+                                    content: "The Renaissance is committed to providing a safe and healthy workplace for all employees. All employees are responsible for maintaining safe working conditions and reporting any hazards or injuries to management. Accidents must be reported immediately to your supervisor.",
+                                    subsection: "4.2"
+                                },
+                                {
+                                    id: "p-4-3",
+                                    title: "Accidents & Incident Reporting",
+                                    content: "Any employee who experiences an accident or injury at work must report it immediately to their supervisor. Prompt reporting ensures proper documentation and access to workers' compensation benefits if applicable.",
+                                    subsection: "4.3"
+                                },
+                                {
+                                    id: "p-4-8",
+                                    title: "Drug-Free & Alcohol-Free Workplace",
+                                    content: "The Renaissance is committed to maintaining a drug-free and alcohol-free workplace. The unlawful manufacture, distribution, dispensation, possession, or use of controlled substances or alcohol on Renaissance premises or while performing job duties is strictly prohibited. Employees may be required to submit to drug and alcohol testing as a condition of employment or in response to reasonable suspicion.",
+                                    subsection: "4.8"
+                                }
+                            ]
+                        },
+                        {
+                            id: "sub-3-2",
+                            title: "Conduct & Standards",
+                            policies: [
+                                {
+                                    id: "p-7-1",
+                                    title: "Employee Discipline",
+                                    content: "The Renaissance uses a progressive discipline approach which may include verbal warnings, written warnings, suspension, or termination, depending on the seriousness of the offense and past conduct. However, the Renaissance reserves the right to skip any step in the discipline process, including termination, if deemed appropriate.",
+                                    subsection: "7.1"
+                                },
+                                {
+                                    id: "p-7-2",
+                                    title: "Tardiness",
+                                    content: "Employees are expected to arrive at work on time and be ready to work at their scheduled start time. Repeated tardiness is subject to disciplinary action up to and including termination.",
+                                    subsection: "7.2"
+                                },
+                                {
+                                    id: "p-7-3",
+                                    title: "Absenteeism & No-Call/No-Show",
+                                    content: "Regular attendance is essential for Renaissance operations. Excessive absenteeism is grounds for disciplinary action up to and including termination. Employees absent without authorization for two complete working days are considered to have abandoned their employment. Failure to call off before your shift begins may result in disciplinary action.",
+                                    subsection: "7.3"
+                                },
+                                {
+                                    id: "p-7-4",
+                                    title: "Personal Beliefs & Political Activity",
+                                    content: "The Renaissance recognizes that employees may hold a wide range of personal beliefs and values. These beliefs are a conflict of interest only when they prevent fulfillment of job responsibilities or when attempts are made to use Renaissance time and facilities to further them. As a 501(c)(3) tax-exempt organization, employees may not use organizational authority to coerce contributions for political purposes or use Renaissance resources for political activities.",
+                                    subsection: "7.4"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    id: "section-4",
+                    title: "Day-to-Day Operations",
+                    order: 4,
+                    collapsed: false,
+                    description: "Work Hours, Payroll, Performance, and Policies",
+                    subsections: [
+                        {
+                            id: "sub-4-1",
+                            title: "Work Hours & Payroll",
+                            policies: [
+                                {
+                                    id: "p-3-1",
+                                    title: "Work Hours & Schedule",
+                                    content: "Work hours and schedules are determined by Renaissance management based on business needs. Employees are expected to work their assigned hours and meet job deadlines. Breaks are provided according to state law requirements. For your specific work schedule, contact your supervisor.",
+                                    subsection: "3.1"
+                                },
+                                {
+                                    id: "p-3-3",
+                                    title: "Payroll",
+                                    content: "The Renaissance operates on a standard payroll schedule with regular pay periods. Employees receive paychecks with deductions for applicable federal, state, and local taxes. No payroll advances are available. Employees are responsible for understanding their tax withholding obligations and updating W-4 forms as needed.",
+                                    subsection: "3.3"
+                                },
+                                {
+                                    id: "p-3-4",
+                                    title: "Overtime",
+                                    content: "Non-exempt employees are entitled to overtime pay at a rate of one and one-half times their regular rate of pay for all hours worked over 40 hours in a workweek in accordance with federal and state wage and hour laws. Overtime must be authorized by management in advance when possible.",
+                                    subsection: "3.4"
+                                }
+                            ]
+                        },
+                        {
+                            id: "sub-4-2",
+                            title: "Performance & Conduct",
+                            policies: [
+                                {
+                                    id: "p-3-5",
+                                    title: "Performance Evaluations",
+                                    content: "The Renaissance conducts performance evaluations periodically to assess employee performance, provide feedback, and identify areas for improvement and professional development. The evaluation process may include input from supervisors, peers, and other relevant sources. For the evaluation schedule and evaluation criteria, contact Human Resources.",
+                                    subsection: "3.5"
+                                },
+                                {
+                                    id: "p-4-1",
+                                    title: "General Conduct & Appearance",
+                                    content: "Employees are expected to maintain a professional appearance and conduct themselves in a professional manner at all times while representing the Renaissance. This includes appropriate attire for your position and courteous interactions with colleagues, guests, and customers. Specific dress code guidelines are available from your supervisor or Human Resources.",
+                                    subsection: "4.1"
+                                },
+                                {
+                                    id: "p-4-5",
+                                    title: "Personal Use of Company Property",
+                                    content: "Company property, equipment, and facilities are provided for business purposes. Personal use of company property, equipment, or facilities is not permitted except as specifically authorized by management. Unauthorized use may result in disciplinary action.",
+                                    subsection: "4.5"
+                                },
+                                {
+                                    id: "p-4-6",
+                                    title: "Internet & Email Policy",
+                                    content: "Internet and email systems are provided for business purposes. All usage is monitored and employees should have no expectation of privacy. The Renaissance reserves the right to access, monitor, and review all electronic communications and internet usage. Inappropriate use including harassment, discrimination, or accessing non-work-related content is prohibited.",
+                                    subsection: "4.6"
+                                }
+                            ]
+                        },
+                        {
+                            id: "sub-4-3",
+                            title: "Travel & Other Policies",
+                            policies: [
+                                {
+                                    id: "p-3-6",
+                                    title: "Mileage & Travel Reimbursement",
+                                    content: "Employees who use personal vehicles for authorized Renaissance business are reimbursed at the current IRS mileage rate. Other business travel expenses (meals, lodging, transportation) are reimbursed according to the Renaissance travel policy. All travel must be pre-approved by management and receipts are required for reimbursement.",
+                                    subsection: "3.6"
+                                },
+                                {
+                                    id: "p-4-7",
+                                    title: "Smoking Policy",
+                                    content: "Smoking is prohibited in all Renaissance buildings and facilities. Smoking is only permitted in designated outdoor areas, if any. This policy applies to all employees, guests, and visitors.",
+                                    subsection: "4.7"
+                                },
+                                {
+                                    id: "p-4-9",
+                                    title: "Employment of Relatives",
+                                    content: "To prevent conflicts of interest and favoritism, the Renaissance restricts employment of relatives in positions where one would have direct supervisory responsibility over the other. For specific guidelines regarding relative employment, contact Human Resources.",
+                                    subsection: "4.9"
+                                },
+                                {
+                                    id: "p-4-10",
+                                    title: "Work Product Ownership",
+                                    content: "All work product, creative materials, inventions, discoveries, and intellectual property created or developed by an employee during employment are the exclusive property of the Renaissance.",
+                                    subsection: "4.10"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // Initialize
+        let appData = loadFromStorage() || defaultData;
+
+        function loadFromStorage() {
+            const stored = localStorage.getItem('renHRHandbook');
+            return stored ? JSON.parse(stored) : null;
+        }
+
+        function saveToStorage() {
+            localStorage.setItem('renHRHandbook', JSON.stringify(appData));
+            showStatus('Changes saved to browser storage', 'success');
+        }
+
+        function render() {
+            const container = document.getElementById('sections');
+            container.innerHTML = '';
+
+            appData.sections.sort((a, b) => a.order - b.order).forEach(section => {
+                const sectionEl = document.createElement('div');
+                sectionEl.className = `section ${section.collapsed ? 'collapsed' : ''}`;
+                sectionEl.dataset.sectionId = section.id;
+
+                const headerEl = document.createElement('div');
+                headerEl.className = 'section-header';
+                headerEl.onclick = () => toggleSection(section.id);
+                headerEl.innerHTML = `
+                    <div>
+                        <h2>${section.title}</h2>
+                        <p style="font-size: 0.85em; opacity: 0.85; margin-top: 4px;">${section.description || ''}</p>
+                    </div>
+                    <span class="section-toggle">▼</span>
+                `;
+
+                const contentEl = document.createElement('div');
+                contentEl.className = 'section-content';
+
+                let contentHTML = '';
+                if (section.subsections && section.subsections.length > 0) {
+                    section.subsections.forEach(subsection => {
+                        contentHTML += `<div class="subsection-group">
+                            <div class="subsection-title">${subsection.title}</div>`;
+
+                        subsection.policies.forEach(policy => {
+                            contentHTML += `
+                                <div class="policy-item" data-policy-id="${policy.id}">
+                                    <h3>${policy.title}</h3>
+                                    <p>${policy.content}</p>
+                                    <div class="policy-controls">
+                                        <button class="policy-btn policy-btn-edit" onclick="editPolicy('${section.id}', '${subsection.id}', '${policy.id}')">Edit</button>
+                                        <button class="policy-btn policy-btn-delete" onclick="deletePolicy('${section.id}', '${subsection.id}', '${policy.id}')">Delete</button>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        contentHTML += '</div>';
+                    });
+                }
+                contentEl.innerHTML = contentHTML;
+
+                sectionEl.appendChild(headerEl);
+                sectionEl.appendChild(contentEl);
+                container.appendChild(sectionEl);
+            });
+
+            applySearch();
+        }
+
+        function toggleSection(sectionId) {
+            const section = appData.sections.find(s => s.id === sectionId);
+            if (section) {
+                section.collapsed = !section.collapsed;
+                saveToStorage();
+                render();
+            }
+        }
+
+        function editPolicy(sectionId, subsectionId, policyId) {
+            const section = appData.sections.find(s => s.id === sectionId);
+            const subsection = section.subsections.find(ss => ss.id === subsectionId);
+            const policy = subsection.policies.find(p => p.id === policyId);
+
+            if (policy) {
+                document.getElementById('editSectionId').value = sectionId;
+                document.getElementById('editSubsectionId').value = subsectionId;
+                document.getElementById('editPolicyId').value = policyId;
+                document.getElementById('editTitle').value = policy.title;
+                document.getElementById('editContent').value = policy.content;
+                document.getElementById('editSubsection').value = policy.subsection;
+                document.getElementById('addForm').style.display = 'none';
+                document.getElementById('editForm').style.display = 'block';
+                document.getElementById('editTitle').focus();
+            }
+        }
+
+        function deletePolicy(sectionId, subsectionId, policyId) {
+            if (confirm('Delete this policy? This action cannot be undone.')) {
+                const section = appData.sections.find(s => s.id === sectionId);
+                const subsection = section.subsections.find(ss => ss.id === subsectionId);
+                subsection.policies = subsection.policies.filter(p => p.id !== policyId);
+                saveToStorage();
+                render();
+                showStatus('Policy deleted', 'success');
+            }
+        }
+
+        function showAddForm() {
+            document.getElementById('addForm').style.display = 'block';
+            document.getElementById('editForm').style.display = 'none';
+            document.getElementById('addTitle').value = '';
+            document.getElementById('addContent').value = '';
+            document.getElementById('addSection').value = appData.sections[0].id;
+            document.getElementById('addSubsection').value = '';
+            document.getElementById('addTitle').focus();
+        }
+
+        function cancelForm() {
+            document.getElementById('addForm').style.display = 'none';
+            document.getElementById('editForm').style.display = 'none';
+        }
+
+        function saveNewPolicy() {
+            const sectionId = document.getElementById('addSection').value;
+            const title = document.getElementById('addTitle').value.trim();
+            const content = document.getElementById('addContent').value.trim();
+            const subsection = document.getElementById('addSubsection').value.trim();
+
+            if (!title || !content) {
+                showStatus('Title and content are required', 'error');
+                return;
+            }
+
+            const section = appData.sections.find(s => s.id === sectionId);
+            const firstSubsection = section.subsections[0];
+
+            const newPolicy = {
+                id: 'p-' + Date.now(),
+                title,
+                content,
+                subsection: subsection || 'Custom'
+            };
+
+            firstSubsection.policies.push(newPolicy);
+            saveToStorage();
+            render();
+            cancelForm();
+            showStatus('Policy added successfully', 'success');
+        }
+
+        function saveEditPolicy() {
+            const sectionId = document.getElementById('editSectionId').value;
+            const subsectionId = document.getElementById('editSubsectionId').value;
+            const policyId = document.getElementById('editPolicyId').value;
+            const title = document.getElementById('editTitle').value.trim();
+            const content = document.getElementById('editContent').value.trim();
+            const subsection = document.getElementById('editSubsection').value.trim();
+
+            if (!title || !content) {
+                showStatus('Title and content are required', 'error');
+                return;
+            }
+
+            const section = appData.sections.find(s => s.id === sectionId);
+            const subSec = section.subsections.find(ss => ss.id === subsectionId);
+            const policy = subSec.policies.find(p => p.id === policyId);
+
+            policy.title = title;
+            policy.content = content;
+            policy.subsection = subsection;
+
+            saveToStorage();
+            render();
+            cancelForm();
+            showStatus('Policy updated successfully', 'success');
+        }
+
+        function applySearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const policies = document.querySelectorAll('.policy-item');
+
+            policies.forEach(policy => {
+                const text = policy.textContent.toLowerCase();
+                policy.style.display = text.includes(query) ? 'block' : 'none';
+            });
+        }
+
+        function exportJSON() {
+            const dataStr = JSON.stringify(appData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `ren-hr-handbook-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            showStatus('Handbook exported as JSON', 'success');
+        }
+
+        function importJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (imported.sections && Array.isArray(imported.sections)) {
+                        appData = imported;
+                        saveToStorage();
+                        render();
+                        showStatus('Handbook imported successfully', 'success');
+                    } else {
+                        showStatus('Invalid handbook format', 'error');
+                    }
+                } catch (err) {
+                    showStatus('Error parsing JSON: ' + err.message, 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function showStatus(message, type) {
+            const el = document.getElementById('statusMessage');
+            el.textContent = message;
+            el.className = `status-message ${type} show`;
+            setTimeout(() => {
+                el.classList.remove('show');
+            }, 3000);
+        }
+
+        document.getElementById('searchInput').addEventListener('input', applySearch);
+
+        // Initial render
+        render();
+    </script>
+
+    <!-- Add/Edit Forms -->
+    <div id="addForm" class="form-panel hidden" style="position: fixed; bottom: 0; left: 0; right: 0; margin: 20px; z-index: 100; max-width: 600px; margin-left: auto; margin-right: auto;">
+        <h3>Add New Policy</h3>
+        <div class="form-group">
+            <label>Section</label>
+            <select id="addSection">
+                <option value="section-1">Employment</option>
+                <option value="section-2">Time Off & Leave</option>
+                <option value="section-3">Workplace Standards</option>
+                <option value="section-4">Day-to-Day Operations</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Subsection Number (e.g., 1.1, 3.2)</label>
+            <input type="text" id="addSubsection">
+        </div>
+        <div class="form-group">
+            <label>Policy Title</label>
+            <input type="text" id="addTitle" placeholder="e.g., Vacation Policy">
+        </div>
+        <div class="form-group">
+            <label>Policy Content</label>
+            <textarea id="addContent" placeholder="Enter the full policy text..."></textarea>
+        </div>
+        <div class="form-buttons">
+            <button class="btn btn-primary" onclick="saveNewPolicy()">Save Policy</button>
+            <button class="btn" style="background: #ccc; color: #333;" onclick="cancelForm()">Cancel</button>
+        </div>
+    </div>
+
+    <div id="editForm" class="form-panel hidden" style="position: fixed; bottom: 0; left: 0; right: 0; margin: 20px; z-index: 100; max-width: 600px; margin-left: auto; margin-right: auto;">
+        <h3>Edit Policy</h3>
+        <input type="hidden" id="editSectionId">
+        <input type="hidden" id="editSubsectionId">
+        <input type="hidden" id="editPolicyId">
+        <div class="form-group">
+            <label>Subsection Number</label>
+            <input type="text" id="editSubsection">
+        </div>
+        <div class="form-group">
+            <label>Policy Title</label>
+            <input type="text" id="editTitle">
+        </div>
+        <div class="form-group">
+            <label>Policy Content</label>
+            <textarea id="editContent"></textarea>
+        </div>
+        <div class="form-buttons">
+            <button class="btn btn-primary" onclick="saveEditPolicy()">Update Policy</button>
+            <button class="btn" style="background: #ccc; color: #333;" onclick="cancelForm()">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        const style = document.createElement('style');
+        style.textContent = `
+            #addForm.hidden, #editForm.hidden {
+                display: none !important;
+            }
+            #addForm:not(.hidden), #editForm:not(.hidden) {
+                display: block;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

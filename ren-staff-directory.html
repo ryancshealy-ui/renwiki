@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RENWiki — Staff Directory</title>
+<style>
+:root{
+  --color-primary: #252d44;
+  --color-secondary: #89c6e8;
+  --color-accent: #FFFFFF;
+  --bg:#fff;
+  --bg2:#f5f8fb;
+  --bg3:#ececee;
+  --t1:#18181b;
+  --t2:#71717a;
+  --t3:#a1a1aa;
+  --bd1:#e4e4e7;
+  --bd2:#d4d4d8;
+  --bd3:#a1a1aa;
+  --s-bg:#f0fdf4;
+  --s-tx:#15803d;
+  --s-bd:#86efac;
+  --w-bg:#fffbeb;
+  --w-tx:#b45309;
+  --w-bd:#fcd34d;
+  --i-bg:#eff6ff;
+  --i-tx:#1d4ed8;
+  --i-bd:#93c5fd;
+  --d-bg:#fef2f2;
+  --d-tx:#b91c1c;
+  --d-bd:#fca5a5;
+  --r:8px;
+  --rl:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;}
+input,select{font-family:inherit;color:var(--t1);background:var(--bg);border:0.5px solid var(--bd2);border-radius:var(--r);padding:6px 10px;font-size:13px;outline:none;}
+input:focus,select:focus{border-color:var(--bd3);}
+button{font-family:inherit;cursor:pointer;}
+.pill{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500;}
+.scard{background:var(--bg);border:0.5px solid var(--bd1);border-radius:var(--rl);padding:12px;display:flex;flex-direction:column;gap:7px;}
+.scard.editing{border:1px solid var(--i-bd);}
+.vbtn{background:transparent;border:none;padding:5px 11px;font-size:13px;color:var(--t2);cursor:pointer;border-radius:var(--r);}
+.vbtn.on{background:var(--bg);border:0.5px solid var(--bd2);color:var(--t1);font-weight:500;}
+.ef{width:100%;box-sizing:border-box;font-size:12px;padding:5px 8px;margin-top:2px;border:0.5px solid var(--bd2);border-radius:var(--r);background:var(--bg);color:var(--t1);}
+.ef:focus{border-color:var(--bd3);outline:none;}
+.trow{display:flex;align-items:center;gap:7px;padding:5px 6px;border-radius:var(--r);}
+.trow:hover{background:var(--bg2);}
+.ebtn{background:none;border:0.5px solid var(--bd1);cursor:pointer;padding:3px 8px;border-radius:4px;color:var(--t2);font-size:11px;line-height:1.4;}
+.ebtn:hover{color:var(--t1);background:var(--bg2);border-color:var(--bd2);}
+.rlabel{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.05em;display:block;margin-top:6px;}
+.rbox{border:0.5px solid var(--bd1);border-radius:var(--r);padding:8px;margin-top:6px;}
+header{background:linear-gradient(135deg, var(--color-primary) 0%, #1a1f2e 100%);color:var(--color-accent);border-bottom:3px solid var(--color-secondary);padding:24px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;position:sticky;top:0;z-index:10;}
+header h1{font-size:20px;font-weight:600;margin:0;}
+header p{font-size:12px;margin:2px 0 0 0;opacity:0.9;}
+main{max-width:1140px;margin:0 auto;padding:20px 24px;}
+.header-content{flex:1;min-width:250px;}
+.header-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.header-actions a{font-size:12px;padding:6px 12px;background:rgba(255,255,255,0.1);border:0.5px solid rgba(255,255,255,0.2);border-radius:var(--r);color:var(--color-accent);cursor:pointer;white-space:nowrap;transition:all 0.2s;text-decoration:none;display:inline-block;}
+.header-actions a:hover{background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.3);}
+.header-actions button{font-size:12px;padding:6px 12px;background:rgba(255,255,255,0.1);border:0.5px solid rgba(255,255,255,0.2);border-radius:var(--r);color:var(--color-accent);cursor:pointer;white-space:nowrap;transition:all 0.2s;}
+.header-actions button:hover{background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.3);}
+.header-meta{font-size:11px;color:rgba(255,255,255,0.8);margin-top:4px;}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-content">
+    <h1>RENWiki — Staff Directory</h1>
+    <p>Renaissance Performing Arts | Staff Organization &amp; Contacts</p>
+  </div>
+  <div class="header-actions">
+    <a href="ren-dashboard.html">← Dashboard</a>
+    <button onclick="exportJSON()">↓ Export</button>
+    <button onclick="importJSON()">↑ Import</button>
+  </div>
+</header>
+<main>
+  <div id="sr" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 0 1.25rem;"></div>
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 1rem;">
+    <div style="display:flex;gap:2px;background:var(--bg2);border-radius:var(--r);padding:2px;flex-shrink:0;">
+      <button class="vbtn on" id="v-cards" onclick="setView('cards')">Cards</button>
+      <button class="vbtn" id="v-tree" onclick="setView('tree')">Hierarchy</button>
+      <button class="vbtn" id="v-org" onclick="setView('orgchart')">Org chart</button>
+    </div>
+    <select id="f-dept" onchange="render()"><option value="">All departments</option><option>Administration</option><option>Artistic</option><option>Education</option><option>Marketing</option><option>Operations</option><option>Technical</option></select>
+    <select id="f-status" onchange="render()"><option value="">All statuses</option><option>Employee</option><option>Contractor</option><option>Volunteer</option></select>
+    <input id="f-search" oninput="render()" placeholder="Search name or title…" style="flex:1;min-width:120px;"/>
+    <button onclick="addPerson()" style="font-size:12px;padding:6px 11px;background:var(--s-bg);color:var(--s-tx);border:0.5px solid var(--s-bd);border-radius:var(--r);flex-shrink:0;white-space:nowrap;">+ Add person</button>
+    <button onclick="resetToDefaults()" title="Reset to original data" style="font-size:12px;padding:6px 10px;background:var(--bg2);border:0.5px solid var(--bd1);border-radius:var(--r);color:var(--t3);flex-shrink:0;">↺ Reset</button>
+  </div>
+  <div id="sn" style="font-size:12px;color:var(--s-tx);margin:-8px 0 10px;min-height:16px;"></div>
+  <div id="mc"></div>
+</main>
+<script>
+const DC={Administration:['#d4e4f7','#0C447C'],Artistic:['#fae8d4','#412402'],Education:['#d9f0c4','#27500A'],Marketing:['#f9ddd0','#4A1B0C'],Operations:['#c8f0e4','#085041'],Technical:['#dfddd9','#2C2C2A'],Board:['#d9d6f5','#26215C']};
+const DEPTS=['Administration','Artistic','Education','Marketing','Operations','Technical','Board'];
+const STATUSES=['Employee','Contractor','Volunteer'];
+const MISSIONS=['Mission Foundation','Mission Delivery','Mission Advancement'];
+const DEFAULT_S=[
+  {id:'s01',n:'Board of Directors',t:'Board of Directors',r:'',st:'Volunteer',m:'Mission Foundation',d:'Board'},
+  {id:'s02',n:'Chelsie Thompson',t:'President & CEO',r:'Board of Directors',st:'Employee',m:'Mission Foundation',d:'Administration'},
+  {id:'s03',n:'Michael Thomas',t:'Artistic Director Emeritus & Production Supervisor',r:'Board of Directors',st:'Contractor',m:'Mission Delivery',d:'Artistic'},
+  {id:'s04',n:'Octavio Más-Orocas',t:'MSO Music Director',r:'Board of Directors',st:'Employee',m:'Mission Delivery',d:'Artistic'},
+  {id:'s05',n:'Ryan Shealy',st:'Employee',m:'Mission Foundation',multi:true,roles:[{d:'Administration',t:'Vice President',r:'Chelsie Thompson'},{d:'Artistic',t:'Vice President',r:'Chelsie Thompson'}]},
+  {id:'s06',n:'Jennifer Crummey',t:'Finance Manager',r:'Chelsie Thompson',st:'Contractor',m:'Mission Foundation',d:'Administration'},
+  {id:'s07',n:'Melissa Drozda',t:'Partnerships Advisor',r:'Chelsie Thompson',st:'Contractor',m:'Mission Advancement',d:'Administration'},
+  {id:'s08',n:'Grace Reigel',t:'Development & Executive Affairs Coordinator',r:'Chelsie Thompson',st:'Employee',m:'Mission Advancement',d:'Administration'},
+  {id:'s09',n:'Nikki Stitak',t:'Executive Assistant',r:'Chelsie Thompson',st:'Employee',m:'Mission Foundation',d:'Administration'},
+  {id:'s10',n:'Jillian Henry',t:'Director of Marketing',r:'Chelsie Thompson',st:'Employee',m:'Mission Advancement',d:'Marketing'},
+  {id:'s11',n:'Steven Au',t:'Brand Manager',r:'Jillian Henry',st:'Employee',m:'Mission Advancement',d:'Marketing'},
+  {id:'s12',n:'Lily Mier',t:'Social Media Coordinator',r:'Jillian Henry',st:'Employee',m:'Mission Advancement',d:'Marketing'},
+  {id:'s13',n:'Jana Estle',t:'Facilities Manager',r:'Chelsie Thompson',st:'Employee',m:'Mission Foundation',d:'Operations'},
+  {id:'s14',n:'Haley Bedocs',t:'Patron Experience Manager',r:'Chelsie Thompson',st:'Employee',m:'Mission Advancement',d:'Operations'},
+  {id:'s15',n:'Atlas Traxler',t:'Box Office Associate',r:'Haley Bedocs',st:'Employee',m:'Mission Advancement',d:'Operations'},
+  {id:'s16',n:'Gloria Gutchall',t:'Box Office Assistant',r:'Atlas Traxler',st:'Employee',m:'Mission Advancement',d:'Operations'},
+  {id:'s17',n:'Jacob Poiner',st:'Employee',m:'Mission Advancement',multi:true,roles:[{d:'Operations',t:'Bar Manager',r:'Jana Estle'},{d:'Artistic',t:'Chorusmaster',r:'Alora Eyerly'}]},
+  {id:'s18',n:'Dauphne Maloney',t:'Teaching Artist & Education Manager',r:'Ryan Shealy',st:'Employee',m:'Mission Delivery',d:'Education'},
+  {id:'s19',n:'Lori Turner',t:'RYOT Director',r:'Dauphne Maloney',st:'Contractor',m:'Mission Delivery',d:'Education'},
+  {id:'s20',n:'Stephen Domka',t:'Youth Orchestra Director',r:'Dauphne Maloney',st:'Employee',m:'Mission Delivery',d:'Education'},
+  {id:'s21',n:'Alora Domka',t:'Youth Strings Director',r:'Dauphne Maloney',st:'Employee',m:'Mission Delivery',d:'Education'},
+  {id:'s22',n:'Kara Bechstein',t:'Programming Manager',r:'Ryan Shealy',st:'Employee',m:'Mission Delivery',d:'Operations'},
+  {id:'s23',n:'Paul Martin',t:'AJO Director',r:'Ryan Shealy',st:'Contractor',m:'Mission Delivery',d:'Artistic'},
+  {id:'s24',n:'Alora Eyerly',t:'MSO Operations Manager',r:'Ryan Shealy',st:'Employee',m:'Mission Delivery',d:'Operations'},
+  {id:'s25',n:'Maria Beyens',t:'MSO Personnel Manager',r:'Paul Martin',st:'Employee',m:'Mission Delivery',d:'Operations'},
+  {id:'s26',n:'Seth Morrison',t:'Technical Director',r:'Ryan Shealy',st:'Employee',m:'Mission Delivery',d:'Technical'},
+  {id:'s27',n:'Nik Demers',st:'Employee',m:'Mission Delivery',multi:true,roles:[{d:'Technical',t:'Asst. Technical Director',r:'Seth Morrison'},{d:'Artistic',t:'Stage Manager',r:'Michael Thomas'}]},
+  {id:'s28',n:'Ethan Kershner',t:'Sound Engineer',r:'Seth Morrison',st:'Employee',m:'Mission Delivery',d:'Technical'},
+  {id:'s29',n:'Noah Schenk',t:'Technical Associate',r:'Seth Morrison',st:'Employee',m:'Mission Delivery',d:'Technical'},
+  {id:'s30',n:'Jason Kaufman',t:'Scenic Designer',r:'Michael Thomas',st:'Employee',m:'Mission Delivery',d:'Artistic'},
+  {id:'s31',n:'Linda Turske',t:'Costumer',r:'Michael Thomas',st:'Employee',m:'Mission Delivery',d:'Artistic'}
+];
+
+let staffData=[],editingId=null,confirmDelId=null,view='cards',nc=0,ocSc=1;
+
+function loadStaff(){try{const s=localStorage.getItem('ren-staff-v1');if(s)return JSON.parse(s);}catch(e){}return DEFAULT_S.map(p=>({...p,roles:p.roles?p.roles.map(r=>({...r})):undefined}));}
+function saveStaff(){try{localStorage.setItem('ren-staff-v1',JSON.stringify(staffData));}catch(e){}const el=document.getElementById('sn');el.textContent='✓ Saved';clearTimeout(el._t);el._t=setTimeout(()=>{el.textContent='';},2500);}
+
+function exportJSON(){const json=JSON.stringify(staffData,null,2);const blob=new Blob([json],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='ren-staff-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);}
+function importJSON(){const input=document.createElement('input');input.type='file';input.accept='.json,application/json';input.onchange=function(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=function(ev){try{const data=JSON.parse(ev.target.result);if(Array.isArray(data)){if(confirm('Import '+data.length+' staff records? This replaces your current data.')){staffData=data;saveStaff();render();}}else{alert('Invalid format. Export a file from this tool first.');}}catch(err){alert('Could not read the file.');}};reader.readAsText(file);};input.click();}
+
+function ini(n){if(n==='Board of Directors')return'BOD';return n.split(' ').map(w=>w[0]).join('').slice(0,2);}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+function primRole(p){return p.roles?p.roles[0]:{d:p.d,t:p.t,r:p.r||''};}
+function roleFor(p,dep){return p.roles?p.roles.find(r=>r.d===dep)||p.roles[0]:{d:p.d,t:p.t,r:p.r||''};}
+function trunc(s,n){s=String(s||'');return s.length>n?s.slice(0,n-1)+'…':s;}
+function stBadge(st){const m={Employee:'s',Contractor:'w',Volunteer:'i'};const k=m[st]||'i';return`<span class="pill" style="background:var(--${k}-bg);color:var(--${k}-tx);">${esc(st)}</span>`;}
+function mBadge(m){const lbl=m.replace('Mission ','');const map={Foundation:'d',Delivery:'s',Advancement:'i'};const k=map[lbl];return k?`<span class="pill" style="background:var(--${k}-bg);color:var(--${k}-tx);">${esc(lbl)}</span>`:`<span class="pill" style="background:var(--bg2);color:var(--t2);">${esc(lbl)}</span>`;}
+function nDL(){return`<datalist id="snl">${staffData.map(s=>`<option value="${esc(s.n)}">`).join('')}</datalist>`;}
+
+function captureEdit(id){const p=staffData.find(s=>s.id===id);if(!p)return;const g=x=>document.getElementById(x);if(g('en_'+id))p.n=g('en_'+id).value.trim()||p.n;if(g('es_'+id))p.st=g('es_'+id).value;if(g('em_'+id))p.m=g('em_'+id).value;if(p.roles){p.roles.forEach((role,i)=>{if(g(`erd_${id}_${i}`))role.d=g(`erd_${id}_${i}`).value;if(g(`ert_${id}_${i}`))role.t=g(`ert_${id}_${i}`).value.trim();if(g(`err_${id}_${i}`))role.r=g(`err_${id}_${i}`).value.trim();});}else{if(g('ed_'+id))p.d=g('ed_'+id).value;if(g('et_'+id))p.t=g('et_'+id).value.trim();if(g('er_'+id))p.r=g('er_'+id).value.trim();}}
+function addRole(id){captureEdit(id);const p=staffData.find(s=>s.id===id);if(!p)return;if(!p.roles){p.roles=[{d:p.d||'Administration',t:p.t||'',r:p.r||''}];p.multi=true;delete p.d;delete p.t;delete p.r;}p.roles.push({d:'Administration',t:'',r:''});render();setTimeout(()=>{const el=document.getElementById('card_'+id);if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'});},30);}
+function removeRole(id,idx){captureEdit(id);const p=staffData.find(s=>s.id===id);if(!p||!p.roles)return;p.roles.splice(idx,1);if(p.roles.length===1){const r=p.roles[0];p.d=r.d;p.t=r.t;p.r=r.r;delete p.roles;delete p.multi;}render();setTimeout(()=>{const el=document.getElementById('card_'+id);if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'});},30);}
+
+function renderDCard(p,dep){
+  const role=roleFor(p,dep);const c=DC[role.d]||DC.Board;
+  const others=p.roles?p.roles.filter(r=>r.d!==dep):[];
+  return`<div class="scard" id="dc_${p.id}_${dep.replace(/ /g,'_')}">
+    ${p.multi?`<div style="display:flex;align-items:center;gap:6px;"><span class="pill" style="background:var(--w-bg);color:var(--w-tx);font-size:10px;">⦻ Multi-role</span>${others.map(r=>`<span style="font-size:10px;color:var(--t3);">+ ${r.d}</span>`).join('')}</div>`:''}
+    <div style="display:flex;align-items:flex-start;gap:9px;">
+      <div style="width:32px;height:32px;border-radius:50%;background:${c[0]};color:${c[1]};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0;">${ini(p.n)}</div>
+      <div style="min-width:0;flex:1;">
+        <p style="font-size:13px;font-weight:500;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(p.n)}</p>
+        <p style="font-size:11px;color:var(--t2);margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(role.t)}</p>
+      </div>
+      <button class="ebtn" onclick="startEdit('${p.id}')" title="Edit">✎ Edit</button>
+    </div>
+    ${role.r?`<p style="font-size:11px;color:var(--t3);margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">↑ ${esc(role.r)}</p>`:''}
+    <div style="display:flex;gap:4px;flex-wrap:wrap;">${stBadge(p.st)}${mBadge(p.m)}</div>
+  </div>`;}
+
+function renderECard(p){
+  const pr=primRole(p);const c=DC[pr.d]||DC.Board;
+  const dOpts=sel=>DEPTS.map(x=>`<option value="${x}"${x===sel?' selected':''}>${x}</option>`).join('');
+  const sOpts=STATUSES.map(x=>`<option value="${x}"${x===p.st?' selected':''}>${x}</option>`).join('');
+  const mOpts=MISSIONS.map(x=>`<option value="${x}"${x===p.m?' selected':''}>${x}</option>`).join('');
+  const del=confirmDelId===p.id
+    ?`<span style="display:flex;gap:4px;align-items:center;"><span style="font-size:11px;color:var(--d-tx);">Remove?</span><button onclick="doDelete('${p.id}')" style="font-size:11px;padding:2px 7px;background:var(--d-bg);color:var(--d-tx);border:0.5px solid var(--d-bd);border-radius:4px;">Yes</button><button onclick="confirmDelId=null;render()" style="font-size:11px;padding:2px 7px;background:var(--bg2);border:0.5px solid var(--bd1);border-radius:4px;color:var(--t2);">No</button></span>`
+    :`<button onclick="confirmDelId='${p.id}';render()" style="font-size:11px;padding:3px 7px;background:none;border:0.5px solid var(--bd1);border-radius:4px;color:var(--t3);">Remove person</button>`;
+  let rf='';
+  if(!p.roles){
+    rf=`<div><span class="rlabel">Title</span><input class="ef" id="et_${p.id}" value="${esc(p.t||'')}" placeholder="Title"/></div>
+    <div><span class="rlabel">Reports to</span><input class="ef" id="er_${p.id}" list="snl" value="${esc(p.r||'')}" placeholder="Supervisor…"/></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+      <div><span class="rlabel">Department</span><select class="ef" id="ed_${p.id}">${dOpts(p.d)}</select></div>
+      <div><span class="rlabel">Status</span><select class="ef" id="es_${p.id}">${sOpts}</select></div>
+    </div>`;
+  }else{
+    rf=`<div><span class="rlabel">Status</span><select class="ef" id="es_${p.id}">${sOpts}</select></div>`;
+    rf+=p.roles.map((role,i)=>`
+    <div class="rbox">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+        <span style="font-size:11px;font-weight:500;color:var(--t2);">Role ${i+1}</span>
+        ${p.roles.length>1?`<button onclick="removeRole('${p.id}',${i})" style="background:none;border:none;font-size:11px;padding:2px 5px;border-radius:4px;color:var(--t3);" onmouseover="this.style.color='var(--d-tx)'" onmouseout="this.style.color='var(--t3)'">&#215; Remove role</button>`:'<span style="font-size:10px;color:var(--t3);">Last role</span>'}
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+        <div><span class="rlabel" style="margin-top:0;">Dept</span><select class="ef" id="erd_${p.id}_${i}">${dOpts(role.d)}</select></div>
+        <div><span class="rlabel" style="margin-top:0;">Title</span><input class="ef" id="ert_${p.id}_${i}" value="${esc(role.t||'')}"/></div>
+      </div>
+      <span class="rlabel">Reports to</span>
+      <input class="ef" id="err_${p.id}_${i}" list="snl" value="${esc(role.r||'')}" placeholder="Supervisor…"/>
+    </div>`).join('');
+  }
+  return`<div class="scard editing" id="card_${p.id}">
+    ${nDL()}
+    <div style="display:flex;align-items:center;gap:9px;">
+      <div style="width:32px;height:32px;border-radius:50%;background:${c[0]};color:${c[1]};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0;">${ini(p.n)}</div>
+      <input class="ef" id="en_${p.id}" value="${esc(p.n)}" placeholder="Full name" style="flex:1;"/>
+    </div>
+    ${rf}
+    <button onclick="addRole('${p.id}')" style="width:100%;font-size:12px;padding:6px;background:var(--bg2);color:var(--t2);border:0.5px dashed var(--bd2);border-radius:var(--r);margin-top:2px;">+ Add another role</button>
+    <div><span class="rlabel">Mission category</span><select class="ef" id="em_${p.id}">${mOpts}</select></div>
+    <div style="display:flex;align-items:center;gap:6px;margin-top:6px;">
+      <button onclick="saveEdit('${p.id}')" style="flex:1;font-size:12px;padding:6px;background:var(--s-bg);color:var(--s-tx);border:0.5px solid var(--s-bd);border-radius:var(--r);font-weight:500;">Save</button>
+      <button onclick="cancelEdit()" style="font-size:12px;padding:6px 10px;background:var(--bg2);color:var(--t2);border:0.5px solid var(--bd1);border-radius:var(--r);">Cancel</button>
+      ${del}
+    </div>
+  </div>`;}
+
+function renderCards(){
+  const dept=document.getElementById('f-dept').value;
+  const status=document.getElementById('f-status').value;
+  const q=document.getElementById('f-search').value.toLowerCase();
+  const filtered=staffData.filter(p=>{
+    if(status&&p.st!==status)return false;
+    const allT=[p.t||'',...(p.roles||[]).map(r=>r.t||'')].join(' ').toLowerCase();
+    if(q&&!p.n.toLowerCase().includes(q)&&!allT.includes(q))return false;
+    if(dept)return p.roles?p.roles.some(r=>r.d===dept):p.d===dept;
+    return true;
+  });
+  let h='';
+  for(const dep of DEPTS){
+    const ppl=filtered.filter(p=>p.roles?p.roles.some(r=>r.d===dep):p.d===dep);
+    if(!ppl.length)continue;
+    const c=DC[dep]||DC.Board;
+    h+=`<div style="margin-bottom:1.5rem;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <span style="width:9px;height:9px;border-radius:50%;background:${c[0]};border:1px solid ${c[1]};flex-shrink:0;"></span>
+        <span style="font-size:11px;font-weight:500;color:var(--t2);text-transform:uppercase;letter-spacing:.07em;">${dep}</span>
+        <span style="font-size:11px;color:var(--t3);">${ppl.length}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;">`;
+    for(const p of ppl){
+      const isPrim=p.roles?p.roles[0].d===dep:p.d===dep;
+      if(editingId===p.id&&isPrim)h+=renderECard(p);
+      else if(editingId===p.id)h+=`<div class="scard" style="opacity:0.35;"><p style="font-size:12px;color:var(--t3);margin:0;">✎ Editing ${esc(p.n)}…</p></div>`;
+      else h+=renderDCard(p,dep);
+    }
+    h+='</div></div>';
+  }
+  return h||'<p style="color:var(--t3);font-size:14px;padding:1rem 0;">No results.</p>';}
+
+function buildTree(){
+  const root=staffData.find(p=>!primRole(p).r)||staffData[0];
+  function node(p){const ch=staffData.filter(c=>(primRole(c).r||'').trim()===p.n.trim()&&c.id!==p.id);return{...p,_ch:ch.map(node)};}
+  return node(root);}
+
+function renderNode(p){
+  const id=nc++;const pr=primRole(p);const c=DC[pr.d]||DC.Board;const has=p._ch&&p._ch.length;
+  let h=`<div style="margin:1px 0;"><div class="trow" style="${has?'cursor:pointer;':''}" ${has?`onclick="var el=document.getElementById('tc${id}');el.style.display=el.style.display==='none'?'block':'none';"`:''}>`;
+  h+=`${has?`<span style="font-size:11px;color:var(--t3);flex-shrink:0;user-select:none;">▾</span>`:`<span style="width:11px;flex-shrink:0;display:inline-block;"></span>`}`;
+  h+=`<div style="width:26px;height:26px;border-radius:50%;background:${c[0]};color:${c[1]};display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;flex-shrink:0;">${ini(p.n)}</div>`;
+  h+=`<span style="font-size:13px;font-weight:500;white-space:nowrap;">${esc(p.n)}</span>`;
+  h+=`${p.multi?`<span class="pill" style="font-size:10px;background:var(--w-bg);color:var(--w-tx);">Multi-role</span>`:''}`;
+  h+=`<span style="font-size:11px;color:var(--t2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(pr.t)}</span>`;
+  h+=`${stBadge(p.st)}</div>`;
+  if(has)h+=`<div id="tc${id}" style="margin-left:20px;border-left:1px solid var(--bd1);padding-left:8px;">${p._ch.map(renderNode).join('')}</div>`;
+  return h+`</div>`;}
+
+const BW=142,BH=52,BU=158,VG=46;
+function calcWu(n){if(!n._ch||!n._ch.length){n._wu=1;return;}n._ch.forEach(calcWu);n._wu=n._ch.reduce((s,c)=>s+c._wu,0);}
+function assignOPos(n,xo,d){n._ox=xo+(n._wu*BU/2)-(BW/2);n._oy=d*(BH+VG);let cx=xo;(n._ch||[]).forEach(c=>{assignOPos(c,cx,d+1);cx+=c._wu*BU;});}
+function renderOrgChart(){
+  const tree=buildTree();calcWu(tree);assignOPos(tree,8,0);
+  const nodes=[],edges=[];
+  function col(n){nodes.push(n);(n._ch||[]).forEach(c=>{edges.push({x1:n._ox+BW/2,y1:n._oy+BH,x2:c._ox+BW/2,y2:c._oy});col(c);});}col(tree);
+  const tw=tree._wu*BU+16,maxY=nodes.reduce((m,n)=>Math.max(m,n._oy),0),th=maxY+BH+24;
+  let el='',eb='';
+  edges.forEach(e=>{const my=(e.y1+e.y2)/2;el+=`<path d="M${e.x1} ${e.y1}L${e.x1} ${my}L${e.x2} ${my}L${e.x2} ${e.y2}" fill="none" stroke="var(--bd2)" stroke-width="1.5" stroke-linecap="round"/>`;});
+  nodes.forEach(p=>{
+    const role=primRole(p);const c=DC[role.d||p.d||'Board']||DC.Board;
+    const x=p._ox,y=p._oy;const isBd=p.id==='s01';
+    eb+=`<g><rect x="${x}" y="${y}" width="${BW}" height="${BH}" rx="7" fill="${c[0]}" stroke="${c[1]}" stroke-width="${isBd?1.5:0.5}" stroke-opacity="0.6"/>`;
+    eb+=`<text x="${x+9}" y="${y+19}" font-size="11" font-family="system-ui,sans-serif" font-weight="600" fill="${c[1]}">${esc(trunc(p.n,22))}</text>`;
+    eb+=`<text x="${x+9}" y="${y+34}" font-size="9" font-family="system-ui,sans-serif" fill="${c[1]}" opacity="0.75">${esc(trunc(role.t||p.t||'',28))}</text>`;
+    eb+=`${p.multi?`<rect x="${x+9}" y="${y+39}" width="54" height="10" rx="5" fill="${c[1]}" fill-opacity="0.15"/><text x="${x+36}" y="${y+47.5}" font-size="7.5" font-family="system-ui,sans-serif" text-anchor="middle" fill="${c[1]}">multi-role</text>`:p.st==='Contractor'?`<rect x="${x+9}" y="${y+39}" width="52" height="10" rx="5" fill="${c[1]}" fill-opacity="0.12"/><text x="${x+35}" y="${y+47.5}" font-size="7.5" font-family="system-ui,sans-serif" text-anchor="middle" fill="${c[1]}">contractor</text>`:''}</g>`;
+  });
+  const lY=th-2;let leg='';
+  Object.entries(DC).forEach(([nm,c],i)=>{const lx=8+i*82;leg+=`<circle cx="${lx+5}" cy="${lY+5}" r="4" fill="${c[0]}" stroke="${c[1]}" stroke-width="0.5"/><text x="${lx+13}" y="${lY+9}" font-size="8.5" font-family="system-ui,sans-serif" fill="${c[1]}">${nm}</text>`;});
+  const totalH=th+20;
+  return`<div style="border:0.5px solid var(--bd1);border-radius:var(--rl);background:var(--bg2);padding:12px;">
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
+      <button onclick="ocZ(-0.15)" style="padding:4px 10px;font-size:13px;background:var(--bg);border:0.5px solid var(--bd2);border-radius:var(--r);">&#8722;</button>
+      <button onclick="ocZ(0.15)" style="padding:4px 10px;font-size:13px;background:var(--bg);border:0.5px solid var(--bd2);border-radius:var(--r);">&#43;</button>
+      <button onclick="ocZ(0,'fit')" style="padding:4px 10px;font-size:12px;background:var(--bg);border:0.5px solid var(--bd2);border-radius:var(--r);">Fit</button>
+      <span id="ocpct" style="font-size:11px;color:var(--t3);">—</span>
+      <span style="font-size:11px;color:var(--t3);margin-left:4px;">← scroll to explore →</span>
+    </div>
+    <div id="occ" style="overflow:auto;">
+      <svg id="ocsvg" width="${tw}" height="${totalH}" viewBox="0 0 ${tw} ${totalH}" data-ow="${tw}" data-oh="${totalH}" xmlns="http://www.w3.org/2000/svg">${el}${eb}<g>${leg}</g></svg>
+    </div>
+  </div>`;}
+
+function ocZ(d,m){
+  if(m==='fit'){const c=document.getElementById('occ'),s=document.getElementById('ocsvg');if(c&&s){const cw=c.offsetWidth-4,ow=parseFloat(s.getAttribute('data-ow'));ocSc=Math.min(1,cw/ow);}}
+  else ocSc=Math.max(0.15,Math.min(2,ocSc+d));
+  const s=document.getElementById('ocsvg');
+  if(s){const ow=parseFloat(s.getAttribute('data-ow')),oh=parseFloat(s.getAttribute('data-oh'));s.setAttribute('width',Math.round(ow*ocSc));s.setAttribute('height',Math.round(oh*ocSc));}
+  const l=document.getElementById('ocpct');if(l)l.textContent=Math.round(ocSc*100)+'%';}
+
+function updateStats(){
+  const multi=staffData.filter(p=>p.multi).length;
+  const emp=staffData.filter(p=>p.st==='Employee').length;
+  const con=staffData.filter(p=>p.st==='Contractor').length;
+  document.getElementById('sr').innerHTML=['Total staff','Employees','Contractors','Multi-role'].map((l,i)=>{
+    const v=[staffData.length,emp,con,multi][i];
+    return`<div style="background:var(--bg2);border-radius:var(--r);padding:12px;border:0.5px solid var(--bd1);"><p style="font-size:12px;color:var(--t2);margin:0 0 2px;">${l}</p><p style="font-size:22px;font-weight:500;margin:0;">${v}</p></div>`;
+  }).join('');}
+
+function render(){
+  updateStats();
+  const sf=view==='cards';
+  ['f-dept','f-status','f-search'].forEach(id=>{document.getElementById(id).style.display=sf?'':'none';});
+  if(view==='tree'){nc=0;document.getElementById('mc').innerHTML=renderNode(buildTree());return;}
+  if(view==='orgchart'){document.getElementById('mc').innerHTML=renderOrgChart();setTimeout(()=>ocZ(0,'fit'),60);return;}
+  document.getElementById('mc').innerHTML=renderCards();}
+
+function setView(v){
+  view=v;editingId=null;confirmDelId=null;
+  const m={cards:'v-cards',tree:'v-tree',orgchart:'v-org'};
+  Object.entries(m).forEach(([vn,bid])=>{document.getElementById(bid).className=vn===v?'vbtn on':'vbtn';});
+  render();}
+
+function startEdit(id){editingId=id;confirmDelId=null;render();setTimeout(()=>{const el=document.getElementById('card_'+id)||document.querySelector('[id^="dc_'+id+'"]');if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'});},30);}
+function cancelEdit(){editingId=null;confirmDelId=null;render();}
+function doDelete(id){staffData=staffData.filter(s=>s.id!==id);editingId=null;confirmDelId=null;saveStaff();render();}
+function saveEdit(id){captureEdit(id);editingId=null;confirmDelId=null;saveStaff();render();}
+
+function addPerson(){
+  const np={id:'p'+Date.now(),n:'New Person',t:'Title',r:'',st:'Employee',m:'Mission Delivery',d:'Administration'};
+  staffData.push(np);editingId=np.id;
+  document.getElementById('f-dept').value='Administration';
+  setView('cards');
+  setTimeout(()=>{const el=document.getElementById('card_'+np.id);if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'});},50);}
+
+function resetToDefaults(){
+  if(!confirm('Reset to original spreadsheet data? All edits will be lost.'))return;
+  staffData=DEFAULT_S.map(p=>({...p,roles:p.roles?p.roles.map(r=>({...r})):undefined}));
+  editingId=null;confirmDelId=null;saveStaff();render();}
+
+document.addEventListener('DOMContentLoaded',function(){staffData=loadStaff();render();});
+</script>
+</body>
+</html>

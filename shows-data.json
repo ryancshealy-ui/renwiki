@@ -1,0 +1,483 @@
+{
+  "version": "1.0",
+  "lastUpdated": "2026-05-08T00:28:16.673205",
+  "shows": [
+    {
+      "id": "2026-05-08T00:28:16.671289",
+      "title": "Ha\u0308xan: A Witchcraft Musical",
+      "date": "2026-06-05",
+      "time": "7:30pm",
+      "location": "Theatre 166",
+      "description": "Friday, June 5, 2026 at 7:30pm\nSaturday, June 6, 2026 at 7:30pm\nSunday, June 7, 2026 at 2:30pm\nFriday, June 12, 2026 at 7:30pm\nSaturday, June 13, 2026 at 7:30pm\nSunday, June 14, 2026 at 2:30pm",
+      "series": "Emerging Artists"
+    },
+    {
+      "id": "2026-05-08T00:28:16.671344",
+      "title": "Broadway Camp! (2026)",
+      "date": "2026-06-15",
+      "time": "8:30am",
+      "location": "Theatre 166",
+      "description": "Monday, June 15, 2026 at 8:30am\u201311:30am\nTuesday, June 16, 2026 at 8:30am\u201311:30am\nWednesday, June 17, 2026 at 8:30am\u201311:30am\nThursday, June 18, 2026 at 8:30am\u201312:00pm\nPerformance:\nThursday, June 18, 20",
+      "series": "Education"
+    },
+    {
+      "id": "2026-05-08T00:28:16.671371",
+      "title": "Mansfield Symphony: 1776",
+      "date": "2026-06-20",
+      "time": "urday, June 20, 2026",
+      "location": "Brickyard",
+      "description": "Saturday, June 20, 2026 at 7:30pm",
+      "series": "Symphony"
+    },
+    {
+      "id": "2026-05-08T00:28:16.671397",
+      "title": "Broadway Camp Showz! (2026)",
+      "date": "2026-06-22",
+      "time": "8:30am",
+      "location": "Theatre 166",
+      "description": "Monday, June 22, 2026 at 8:30am\u20132:30pm\nTuesday, June 23, 2026 at 8:30am\u20132:30pm\nWednesday, June 24, 2026 at 8:30am\u20132:30pm\nThursday, June 25, 2026 at 8:30am\u20132:30pm\nFriday, June 26, 2026 at 8:30am\u20134:00pm",
+      "series": "Education"
+    },
+    {
+      "id": "2026-05-08T00:28:16.671421",
+      "title": "RYOT: Gilbert and Sullivan's H. M. S. Pinafore",
+      "date": "2026-06-27",
+      "time": "urday, June 27, 2026",
+      "location": "Theatre 166",
+      "description": "Saturday, June 27, 2026 at 2:00pm\nSaturday, June 27, 2026 at 7:00pm\nSunday, June 28, 2026 at 1:00pm\nSunday, June 28, 2026 at 4:00pm",
+      "series": "Education"
+    },
+    {
+      "id": "2026-05-08T00:28:16.671444",
+      "title": "Pictures on the Plaza:\nThe Muppet Movie (1979)",
+      "date": "2026-07-08",
+      "time": "8:30pm",
+      "location": "Plaza",
+      "description": "Wednesday, July 8, 2026 at 8:30pm",
+      "series": "Cinema"
+    },
+    {
+      "id": "2026-05-08T00:28:16.671480",
+      "title": "Guys and Dolls",
+      "date": "2026-08-01",
+      "time": "urday, August 1, 2026",
+      "location": "Main Stage",
+      "description": "Saturday, August 1, 2026 at 7:30pm\nSunday, August 2, 2026 at 2:30pm\nSaturday, August 8, 2026 at 7:30pm\nSunday, August 9, 2026 at 2:30pm",
+      "series": "Broadway"
+    },
+    {
+      "id": "2026-05-08T00:28:16.671504",
+      "title": "Pictures on the Plaza:\nThe Lion King (1994)",
+      "date": "2026-08-12",
+      "time": "8:30pm",
+      "location": "Plaza",
+      "description": "Wednesday, August 12, 2026 at 8:30pm",
+      "series": "Cinema"
+    },
+    {
+      "id": "2026-05-08T00:28:16.671527",
+      "title": "39th Annual T.S.I.A.\n(Third Saturday in August)",
+      "date": "2026-08-15",
+      "time": "urday, August 15, 2026",
+      "location": "Main Stage",
+      "description": "Saturday, August 15, 2026 at 8:00pm",
+      "series": "Rental"
+    },
+    {
+      "id": "2026-05-08T00:28:16.671551",
+      "title": "MYTheatre: Disney's Newsies, Jr.",
+      "date": "2026-09-11",
+      "time": "7:00pm",
+      "location": "Main Stage",
+      "description": "Friday, September 11, 2026 at 7:00pm\nSaturday, September 12, 2026 at 7:00pm\nSunday, September 13, 2026 at 2:30pm\nSensory-Friendly Performance:\nSaturday, September 12, 2026 at 1:00pm",
+      "series": "Education"
+    },
+    {
+      "id": "2026-05-08T00:28:16.671575",
+      "title": "Classical Mansfield",
+      "date": "2026-09-19",
+      "time": "urday, September 19, 2026",
+      "location": "Main Stage",
+      "description": "Saturday, September 19, 2026 at 7:30pm",
+      "series": "Symphony"
+    },
+    {
+      "id": "2026-05-08T00:28:16.671599",
+      "title": "Dracula",
+      "date": "2026-09-25",
+      "time": "7:30pm",
+      "location": "Theatre 166",
+      "description": "Friday, September 25, 2026 at 7:30pm\nSaturday, September 26,  2026 at 7:30pm\nSaturday, September 26, 2026 at 10:30pm\nSunday, September 27, 2026 at. 2:30pm\nFriday, October 2, 2026 at 7:30pm\nSaturday, O",
+      "series": "Innovation"
+    },
+    {
+      "id": "2026-05-08T00:28:16.671623",
+      "title": "OGTTM: The Silence of the Lambs (film)",
+      "date": "2026-10-01",
+      "time": "7:00pm",
+      "location": "Main Stage",
+      "description": "Thursday, October 1, 2026 at 7:00pm",
+      "series": "Special"
+    },
+    {
+      "id": "2026-05-08T00:28:16.671646",
+      "title": "Carnegie Hall's Link Up\nThe Orchestra Moves",
+      "date": "2026-10-15",
+      "time": "9:45am",
+      "location": "Main Stage",
+      "description": "Thursday, October 15, 2026 at 9:45am\nThursday October 15, 2026 at 11:45am",
+      "series": "Education"
+    },
+    {
+      "id": "2026-05-08T00:28:16.671669",
+      "title": "Symphony Title 2",
+      "date": "2026-10-17",
+      "time": "urday, October 17, 2026",
+      "location": "Main Stage",
+      "description": "Saturday, October 17, 2026 at 7:30pm",
+      "series": "Symphony"
+    },
+    {
+      "id": "2026-05-08T00:28:16.671693",
+      "title": "Film: Nosferatu (1922)\nFeaturing the Mighty Wurlitzer Organ",
+      "date": "2026-10-23",
+      "time": "7:30pm",
+      "location": "Main Stage",
+      "description": "Friday, October 23, 2026 at 7:30pm",
+      "series": "Spotlight"
+    },
+    {
+      "id": "2026-05-08T00:28:16.671715",
+      "title": "Good Times/Bad Times\n\u2014The Led Zeppelin Experience",
+      "date": "2026-10-24",
+      "time": "urday, October 24, 2026",
+      "location": "Main Stage",
+      "description": "Saturday, October 24, 2026 at 7:30pm",
+      "series": "Concert"
+    },
+    {
+      "id": "2026-05-08T00:28:16.671738",
+      "title": "Teddy Bear Concert: The Spooky Old House",
+      "date": "2026-10-24",
+      "time": "urday, October 24, 2026",
+      "location": "Library",
+      "description": "Saturday, October 24, 2026 at 2:30pm",
+      "series": "Education"
+    },
+    {
+      "id": "2026-05-08T00:28:16.671761",
+      "title": "Film: The Rocky Horror Picture Show",
+      "date": "2026-10-31",
+      "time": "urday, October 31, 2026",
+      "location": "Main Stage",
+      "description": "Saturday, October 31, 2026 at 10:00pm",
+      "series": "Spotlight"
+    },
+    {
+      "id": "2026-05-08T00:28:16.671785",
+      "title": "Sesame Street Live: Elmo's Got The Moves",
+      "date": "2026-11-03",
+      "time": "2:00pm",
+      "location": "Main Stage",
+      "description": "Tuesday, November 3, 2026 at 2:00pm\nTuesday, November 3, 2026 at 6:00pm",
+      "series": "Family"
+    },
+    {
+      "id": "2026-05-08T00:28:16.671808",
+      "title": "Youth Strings: Fall Concert",
+      "date": "2026-11-15",
+      "time": "3:30pm",
+      "location": "Lex HS",
+      "description": "Sunday, November 15, 2026 at 3:30pm",
+      "series": "Education"
+    },
+    {
+      "id": "2026-05-08T00:28:16.671832",
+      "title": "Oliver!",
+      "date": "2026-11-21",
+      "time": "urday, November 21, 2026",
+      "location": "Main Stage",
+      "description": "Saturday, November 21, 2026 at 7:30pm\nSunday, November 22, 2026 at 2:30pm\nFriday, November 27, 2026 at 7:30pm\nSaturday, November 28, 2026 at 7:30pm\nSunday, November 29, 2026 at 2:30pm",
+      "series": "Broadway"
+    },
+    {
+      "id": "2026-05-08T00:28:16.671940",
+      "title": "Richland Academy of the Arts:\nThe Nutcracker Ballet",
+      "date": "2026-12-04",
+      "time": "urday, December 5, 2026",
+      "location": "Main Stage",
+      "description": "Saturday, December 5, 2026 at 7:30pm\nSunday, December 6, 2026 at 2:30pm\nSchool Performance:\nFriday, December 4, 2026 at 9:15am",
+      "series": "Spotlight"
+    },
+    {
+      "id": "2026-05-08T00:28:16.671970",
+      "title": "We Wish You a Jazzy Christmas\nFeaturing the Artistic Jazz Orchestra",
+      "date": "2026-12-12",
+      "time": "urday, December 12, 2026",
+      "location": "Main Stage",
+      "description": "Saturday, December 12, 2026 at 7:30pm",
+      "series": "Spotlight"
+    },
+    {
+      "id": "2026-05-08T00:28:16.671994",
+      "title": "Youth Orchestra: Holiday Prelude",
+      "date": "2026-12-13",
+      "time": "3:30pm",
+      "location": "Main Stage",
+      "description": "Sunday, December 13, 2026 at 3:30pm",
+      "series": "Education"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672017",
+      "title": "Mansfield Symphony: Holiday Pops",
+      "date": "2026-12-19",
+      "time": "urday, December 19, 2026",
+      "location": "Main Stage",
+      "description": "Saturday, December 19, 2026 at 7:30pm",
+      "series": "Symphony"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672040",
+      "title": "RYOT: Workshop (Classes)",
+      "date": "2027-01-05",
+      "time": "7:30pm",
+      "location": "Ballroom",
+      "description": "Tuesday, January 5, 2027\nthrough Thursday, February 4, 2027",
+      "series": "Education"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672064",
+      "title": "Deric Cahill",
+      "date": "2027-01-09",
+      "time": "urday, January 9, 2027",
+      "location": "Main Stage",
+      "description": "Saturday, January 9, 2027 at 7:30pm",
+      "series": "Spotlight"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672087",
+      "title": "Jo Dee Messina",
+      "date": "2027-01-16",
+      "time": "urday, January 16, 2027",
+      "location": "Main Stage",
+      "description": "Saturday, January 16, 2027 at 7:30pm",
+      "series": "Concert"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672111",
+      "title": "A1A The Official Jimmy Buffett Tribute",
+      "date": "2027-01-23",
+      "time": "urday, January 23, 2027",
+      "location": "Main Stage",
+      "description": "Saturday, January 23, 2027 at 7:30pm",
+      "series": "Concert"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672134",
+      "title": "Ruthless! The Musical",
+      "date": "2027-01-29",
+      "time": "7:30pm",
+      "location": "Theatre 166",
+      "description": "Friday, January 29, 2027 at 7:30pm\nSaturday, January 30, 2027 at 7:30pm\nSunday, January 31, 2027 at 2:30pm\nFriday, February 5, 2027 at 7:30pm\nSaturday, February 6, 2027 at 7:30pm\nSunday, February 7, 2",
+      "series": "Innovation"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672158",
+      "title": "RYOT: Showcase (Performance)",
+      "date": "2027-02-06",
+      "time": "urday, February 6, 2027",
+      "location": "Main Stage",
+      "description": "Saturday, February 6, 2027 at 7:00pm",
+      "series": "Education"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672182",
+      "title": "Improv Underground: Workshop/Classes",
+      "date": "2027-02-17",
+      "time": "4:00pm through Wednesday, April 7, 2027",
+      "location": "Theatre 166",
+      "description": "Wednesday, February 17, 2027 at 4:00pm through Wednesday, April 7, 2027 at 4:00pm",
+      "series": "Education"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672206",
+      "title": "AJO Concert",
+      "date": "2027-02-20",
+      "time": "urday, February 20, 2027",
+      "location": "Main Stage",
+      "description": "Saturday, February 20, 2027 at 7:30pm",
+      "series": "Spotlight"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672229",
+      "title": "Teddy Bear Concert: Carnival of the Animals",
+      "date": "2027-02-21",
+      "time": "2:30pm",
+      "location": "Theatre 166",
+      "description": "Sunday, February 21, 2027 at 2:30pm",
+      "series": "Education"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672252",
+      "title": "Symphony Side by Side ",
+      "date": "2027-02-27",
+      "time": "urday, February 27, 2027",
+      "location": "Main Stage",
+      "description": "Saturday, February 27, 2027 at 7:30pm",
+      "series": "Symphony"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672276",
+      "title": "Tartan Terrors",
+      "date": "2027-03-06",
+      "time": "urday, March 6, 2027",
+      "location": "Main Stage",
+      "description": "Saturday, March 6, 2027 at 7:30pm",
+      "series": "Spotlight"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672299",
+      "title": "Come From Away",
+      "date": "2027-03-12",
+      "time": "7:30pm",
+      "location": "Theatre 166",
+      "description": "Friday, March 12, 2027 at 7:30pm\nSaturday, March 13 2027 at 7:30pm\nSunday, March 14, 2027 at 2:30pm\nFriday, March 19, 2027 at 7:30pm\nSaturday, March 20, 2027 at 7:30pm\nSunday, March 21, 2027 at 2:30pm",
+      "series": "Innovation"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672323",
+      "title": "Symphony x Chorus",
+      "date": "2027-03-13",
+      "time": "urday, March 13, 2027",
+      "location": "Main Stage",
+      "description": "Saturday, March 13, 2027 at 7:30pm",
+      "series": "Symphony"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672346",
+      "title": "The Ledbetters Pearl Jam Tribute Band",
+      "date": "2027-03-20",
+      "time": "urday, March 20, 2027",
+      "location": "Main Stage",
+      "description": "Saturday, March 20, 2027 at 7:30pm",
+      "series": "Concert"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672369",
+      "title": "MYTheatre: Disney's The Lion King, Jr.",
+      "date": "2027-04-02",
+      "time": "7:00pm",
+      "location": "Main Stage",
+      "description": "Friday, April 2, 2027 at 7:00pm\nSaturday, April 3, 2027 at 7:00pm\nSunday, April 4, 2027 at 2:30pm\nSensory-Friendly Performance:\nSaturday, April 3, 2027 at 1:00pm",
+      "series": "Education"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672393",
+      "title": "Improv Underground: \"Open Mic\" Night (Performance)",
+      "date": "2027-04-08",
+      "time": "7:00pm",
+      "location": "Theatre 166",
+      "description": "Thursday, April 8, 2027 at 7:00pm",
+      "series": "Education"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672417",
+      "title": "Dirty Deeds, The AC/DC Experience",
+      "date": "2027-04-10",
+      "time": "urday, April 10, 2027",
+      "location": "Main Stage",
+      "description": "Saturday, April 10, 2027 at 7:30pm",
+      "series": "Concert"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672440",
+      "title": "Teddy Bear Concert: Pinocchio",
+      "date": "2027-04-25",
+      "time": "2:30pm",
+      "location": "Theatre 166",
+      "description": "Sunday, April 25, 2027 at 2:30pm",
+      "series": "Education"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672464",
+      "title": "Beautiful: The Carole King Musical ",
+      "date": "2027-05-01",
+      "time": "urday, May 1, 2027",
+      "location": "Main Stage",
+      "description": "Saturday, May 1, 2027 at 7:30pm\nSunday, May 2, 2027 at 2:30pm\nSaturday, May 8, 2027 at 7:30pm\nSunday, May 9, 2027 at 2:30pm",
+      "series": "Broadway"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672487",
+      "title": "MindSprouts Showcase",
+      "date": "2027-05-06",
+      "time": "7:00pm",
+      "location": "Theatre 166",
+      "description": "Thursday, May 6, 2027 at 7:00pm",
+      "series": "Education"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672511",
+      "title": "Symphony x Broadway",
+      "date": "2027-05-15",
+      "time": "urday, May 15, 2027",
+      "location": "Main Stage",
+      "description": "Saturday, May 15, 2027 at 7:30pm",
+      "series": "Symphony"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672534",
+      "title": "Youth Orchestra & Strings:\nSpring Concert",
+      "date": "2027-05-16",
+      "time": "3:30pm",
+      "location": "Main Stage",
+      "description": "Sunday, May 16, 2027 at 3:30pm",
+      "series": "Education"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672557",
+      "title": "So Good! The Neil Diamond Experience",
+      "date": "2027-05-21",
+      "time": "7:30pm",
+      "location": "Main Stage",
+      "description": "Friday, May 21 2027 at 7:30pm",
+      "series": "Concert"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672581",
+      "title": "Emerging Artists Show",
+      "date": "2027-06-04",
+      "time": "7:30pm",
+      "location": "Theatre 166",
+      "description": "Friday, June 4, 2027 at 7:30pm\nSaturday, June 5, 2027 at 7:30pm\nSunday, June 6, 2027 at 2:30pm\nFriday, June 11, 2027 at 7:30pm\nSaturday, June 12, 2027 at 7:30pm\nSunday, June 13, 2027 at 2:30pm",
+      "series": "Emerging Artists"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672607",
+      "title": "Broadway Camp! (2027)",
+      "date": "2027-06-14",
+      "time": "8:30am",
+      "location": "Theatre 166",
+      "description": "Monday, June 14, 2027 at 8:30am\u201311:30am\nTuesday, June 15, 2027 at 8:30am\u201311:30am\nWednesday, June 16, 2027 at 8:30am\u201311:30am\nThursday, June 17, 2027 at 8:30am\u201311:30am\nFriday, June 18, 2027 at 8:30am\u201311",
+      "series": "Education"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672633",
+      "title": "Broadway Camp Showz! (2027)",
+      "date": "2027-06-21",
+      "time": "8:30am",
+      "location": "Main Stage",
+      "description": "Monday, June 21, 2027 at 8:30am\u20132:30pm\nTuesday, June 22, 2027 at 8:30am\u20132:30pm\nWednesday, June 23, 2027 at 8:30am\u20132:30pm\nThursday, June 24, 2027 at 8:30am\u20132:30pm\nFriday, June 25, 2027 at 8:30am\u20134:00pm",
+      "series": "Education"
+    },
+    {
+      "id": "2026-05-08T00:28:16.672657",
+      "title": "RYOT: Summer Show",
+      "date": "2027-06-26",
+      "time": "urday, June 26, 2027",
+      "location": "Theatre 166",
+      "description": "Saturday, June 26, 2027 at 2:00pm\nSaturday, June 26, 2027 at 7:00pm\nSunday, June 27, 2027 at 1:00pm\nSunday, June 27, 2027 at 4:00pm",
+      "series": "Education"
+    }
+  ]
+}
